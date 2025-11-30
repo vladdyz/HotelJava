@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="610.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn prefWidth="33.60000616312027" text="ID" />
+          <TableColumn prefWidth="115.20001220703125" text="Name" />
+            <TableColumn prefWidth="105.59996032714844" text="Phone" />
+            <TableColumn prefWidth="116.00001525878906" text="Email" />
+            <TableColumn minWidth="6.39996337890625" prefWidth="124.79998779296875" text="Address" />
+            <TableColumn prefWidth="113.60003662109375" text="Loyalty Points" />
+        </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label alignment="CENTER" text="Search Guest : " textAlignment="CENTER" GridPane.halignment="RIGHT" />
+            <TextField GridPane.columnIndex="1" GridPane.columnSpan="2" />
+            <RadioButton mnemonicParsing="false" text="By Name" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+            <RadioButton layoutX="402.0" layoutY="16.0" mnemonicParsing="false" text="By Phone" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+            <RadioButton layoutX="431.0" layoutY="16.0" mnemonicParsing="false" text="By Email" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
+         </children>
+      </GridPane>
+   </bottom>
+   <top>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label alignment="TOP_CENTER" text="Guests">
+               <font>
+                  <Font name="Lucida Sans Demibold Italic" size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+      </GridPane>
+   </top>
+</BorderPane>

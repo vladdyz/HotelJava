@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0" prefWidth="924.0" style="-fx-background-color: NAVAJOWHITE;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.senecapolytechnic.application.apd545project.controllers.AdminController">
+   <top>
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: NAVAJOWHITE; -fx-border-color: orange; -fx-max-width: parent-width;" text="Administrator Interface (c) 2025 All Rights Reserved" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Franklin Gothic Heavy" size="17.0" />
+               </font>
+               <padding>
+                  <Insets bottom="9.0" top="9.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <GridPane maxWidth="1.7976931348623157E308" style="-fx-background-color: NAVAJOWHITE; -fx-border-color: orange;" BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="btnAdminReservations" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: ivory;" text="Reservations" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <font>
+                  <Font name="Lucida Sans Demibold Roman" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAdminGuests" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: ivory;" text="Manage Guests" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font name="Lucida Sans Demibold Italic" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAdminFeedback" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: ivory;" text="View Feedback" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+               <font>
+                  <Font name="Lucida Sans Demibold Roman" size="12.0" />
+               </font>
+            </Button>
+            <ImageView pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+               <image>
+                  <Image url="@../../../../../../../../../Downloads/sun-1846.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="btnAdminRooms" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: ivory;" text="Manage Rooms" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font name="Lucida Sans Demibold Roman" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAdminLoyaltyPts" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: ivory;" text="Loyalty Points" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font name="Lucida Sans Demibold Roman" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAdminLogOut" layoutX="65.0" layoutY="480.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: ivory;" text="Log Out" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <font>
+                  <Font name="Lucida Sans Demibold Roman" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAdminLogs" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: ivory;" text="View Logs" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <font>
+                  <Font name="Lucida Sans Demibold Roman" size="12.0" />
+               </font>
+            </Button>
+         </children>
+         <effect>
+            <ColorAdjust contrast="0.39" />
+         </effect>
+      </GridPane>
+   </left>
+   <effect>
+      <InnerShadow>
+         <color>
+            <Color red="1.0" green="0.5833333134651184" />
+         </color>
+      </InnerShadow>
+   </effect>
+   <center>
+      <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: navajowhite;" BorderPane.alignment="CENTER">
+         <children>
+            <BorderPane fx:id="borderPaneReservations" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" visible="false">
+               <center>
+                  <TableView fx:id="tableReservations" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn fx:id="reservationIdCol" prefWidth="50.4000244140625" text="ID" />
+                        <TableColumn fx:id="reservationGuestNameCol" prefWidth="105.5999755859375" text="Name of Guest" />
+                        <TableColumn fx:id="reservationCheckInCol" prefWidth="76.800048828125" text="Check In" />
+                        <TableColumn fx:id="reservationCheckOutCol" prefWidth="76.0" text="Check Out" />
+                        <TableColumn fx:id="reservationAdultsCol" prefWidth="56.0" text="Adults" />
+                        <TableColumn fx:id="reservationChildrenCol" prefWidth="75.199951171875" text="Children" />
+                        <TableColumn fx:id="reservationStatusCol" prefWidth="157.5999755859375" text="Status" />
+                     </columns>
+                  </TableView>
+               </center>
+               <bottom>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" text="Search Guest : " textAlignment="CENTER" GridPane.halignment="RIGHT" />
+                        <TextField fx:id="searchGuestsInput" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                        <DatePicker fx:id="searchReservationsDateStartInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="searchReservationsDateEndInput" layoutX="130.0" layoutY="43.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER" layoutX="52.0" layoutY="16.0" text="Reservation Status : " textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
+                        <ChoiceBox fx:id="choiceBoxReservationStatus" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </ChoiceBox>
+                        <Label alignment="CENTER" layoutX="52.0" layoutY="16.0" text="Between Dates : " textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <Button fx:id="btnReservationsCheckout" mnemonicParsing="false" text="Checkout" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </bottom>
+               <top>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="TOP_CENTER" text="Reservations">
+                           <font>
+                              <Font name="Lucida Sans Demibold Italic" size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Button fx:id="btnEditReservation" mnemonicParsing="false" text="Edit Reservation" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                        <Button fx:id="btnNewReservation" mnemonicParsing="false" text="New Reservation" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                        <Button fx:id="btnCancelReservation" mnemonicParsing="false" text="Cancel Reservation" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                     </children>
+                  </GridPane>
+               </top>
+            </BorderPane>
+            <BorderPane fx:id="borderPaneGuests" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-border-color: black;" visible="false">
+               <center>
+                  <TableView fx:id="tableGuests" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn fx:id="guestsIdCol" prefWidth="33.60000616312027" text="ID" />
+                        <TableColumn fx:id="guestsNameCol" prefWidth="115.20001220703125" text="Name" />
+                        <TableColumn fx:id="guestsPhoneCol" prefWidth="105.59996032714844" text="Phone" />
+                        <TableColumn fx:id="guestsEmailCol" prefWidth="116.00001525878906" text="Email" />
+                        <TableColumn fx:id="guestsAddressCol" minWidth="6.39996337890625" prefWidth="124.79998779296875" text="Address" />
+                        <TableColumn fx:id="guestsLoyaltyPtsCol" prefWidth="113.60003662109375" text="Loyalty Points" />
+                     </columns>
+                  </TableView>
+               </center>
+               <bottom>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" text="Search Guest : " textAlignment="CENTER" GridPane.halignment="RIGHT" />
+                        <TextField fx:id="searchGuestsInput2" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                        <RadioButton fx:id="btnRadioSearchName" mnemonicParsing="false" text="By Name" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="guestsSearchFilter" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="btnRadioSearchPhone" layoutX="402.0" layoutY="16.0" mnemonicParsing="false" text="By Phone" toggleGroup="$guestsSearchFilter" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                        <RadioButton fx:id="btnRadioSearchEmail" layoutX="431.0" layoutY="16.0" mnemonicParsing="false" text="By Email" toggleGroup="$guestsSearchFilter" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
+                     </children>
+                  </GridPane>
+               </bottom>
+               <top>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="TOP_CENTER" text="Guests">
+                           <font>
+                              <Font name="Lucida Sans Demibold Italic" size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </top>
+            </BorderPane>
+            <BorderPane fx:id="borderPaneRoomMgmt" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" visible="false">
+               <center>
+                  <TableView fx:id="tableRoomMgmt" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn fx:id="roomMgmtIdCol" prefWidth="50.4000244140625" text="ID" />
+                        <TableColumn fx:id="roomMgmtRoomNoCol" prefWidth="105.5999755859375" text="Room No." />
+                        <TableColumn fx:id="roomMgmtTypeCol" prefWidth="76.800048828125" text="Type" />
+                        <TableColumn fx:id="roomMgmtBedsCol" prefWidth="76.0" text="Beds" />
+                        <TableColumn fx:id="roomMgmtBasePriceCol" prefWidth="106.4000244140625" text="Base Price" />
+                        <TableColumn fx:id="roomMgmtStatusCol" prefWidth="107.199951171875" text="Status" />
+                     </columns>
+                  </TableView>
+               </center>
+               <bottom>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" text="Search Room No. : " textAlignment="CENTER" GridPane.halignment="RIGHT" />
+                        <TextField fx:id="btnSearchRoomNoInput" GridPane.columnIndex="1" />
+                        <Label alignment="CENTER" layoutX="52.0" layoutY="16.0" text="Filter by Type : " textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                        <ChoiceBox fx:id="choiceBoxRoomTypeFilter" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" />
+                        <Label alignment="CENTER" text="Filter by Room Status : " textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <ChoiceBox fx:id="choiceBoxRoomStatusFilter" layoutX="376.0" layoutY="12.0" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" style="-fx-background-color: navajowhite;" GridPane.columnSpan="5" GridPane.rowIndex="2" GridPane.rowSpan="2">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0">
+                                 <children>
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Occupancy Report " underline="true" AnchorPane.leftAnchor="5.0">
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label alignment="CENTER" text="Filter by Time Period : " textAlignment="CENTER" GridPane.halignment="RIGHT" />
+                                    <DatePicker fx:id="roomDateFilterInput" GridPane.columnIndex="1" />
+                                    <Label alignment="CENTER" layoutX="32.0" layoutY="15.0" text="Occupancy Percentage: " textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="occupancyPercentage" disable="true" editable="false" GridPane.columnIndex="3" />
+                                    <Button fx:id="btnExportRoomMgmt" mnemonicParsing="false" text="Export" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </GridPane>
+               </bottom>
+               <top>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="TOP_CENTER" text="Room Management" GridPane.columnSpan="2">
+                           <font>
+                              <Font name="Lucida Sans Demibold Italic" size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Button fx:id="btnViewWaitlist" mnemonicParsing="false" text="View Waitlist" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                        <Button fx:id="btnUpdateAvailability" mnemonicParsing="false" text="Update Availability" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                     </children>
+                  </GridPane>
+               </top>
+            </BorderPane>
+            <BorderPane fx:id="borderPaneFeedback" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" visible="false">
+               <center>
+                  <TableView fx:id="tableFeedback" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn fx:id="feedbackIdCol" prefWidth="50.4000244140625" text="ID" />
+                        <TableColumn fx:id="feedbackGuestCol" prefWidth="105.5999755859375" text="Guest" />
+                        <TableColumn fx:id="feedbackReservationIdCol" prefWidth="88.0" text="Reservation ID" />
+                        <TableColumn fx:id="feedbackRatingCol" prefWidth="63.20001220703125" text="Rating" />
+                        <TableColumn fx:id="feedbackCommentsCol" prefWidth="118.4000244140625" text="Comments" />
+                        <TableColumn fx:id="feedbackSentimentCol" prefWidth="80.00006103515625" text="Sentiment" />
+                        <TableColumn fx:id="feedbackCreatedCol" prefWidth="118.39990234375" text="Created" />
+                     </columns>
+                  </TableView>
+               </center>
+               <bottom>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" text="Search by Guest : " textAlignment="CENTER" GridPane.halignment="RIGHT" />
+                        <TextField fx:id="searchGuestInput3" GridPane.columnIndex="1" />
+                        <Label alignment="CENTER" layoutX="52.0" layoutY="16.0" text="Filter by Type : " textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
+                        <ChoiceBox fx:id="choiceBoxFeedbackType" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4">
+                           <GridPane.margin>
+                              <Insets right="3.0" />
+                           </GridPane.margin>
+                        </ChoiceBox>
+                        <Label alignment="CENTER" text="Filter by Rating : " textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <ChoiceBox fx:id="choiceBoxFeedbackRating" layoutX="376.0" layoutY="12.0" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets right="3.0" />
+                           </GridPane.margin>
+                        </ChoiceBox>
+                        <Label alignment="CENTER" layoutX="37.0" layoutY="16.0" text="Dates Between : " textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="searchFeedbackDateStartInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="searchFeedbackDateInput" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label alignment="CENTER" layoutX="408.0" layoutY="47.0" text="Filter by Sentiment : " textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                        <ChoiceBox fx:id="choiceBoxFeedbackSentiment" layoutX="497.0" layoutY="43.0" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets right="3.0" />
+                           </GridPane.margin>
+                        </ChoiceBox>
+                     </children>
+                  </GridPane>
+               </bottom>
+               <top>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="TOP_CENTER" text="Feedback Submissions" GridPane.columnSpan="2">
+                           <font>
+                              <Font name="Lucida Sans Demibold Italic" size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Button fx:id="btnExportFeedback" mnemonicParsing="false" text="Export" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                     </children>
+                  </GridPane>
+               </top>
+            </BorderPane>
+            <BorderPane fx:id="borderPaneAuditLogs" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-border-color: black;" visible="false">
+               <center>
+                  <TableView fx:id="tableAudit" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn fx:id="auditIdCol" prefWidth="50.4000244140625" text="ID" />
+                        <TableColumn fx:id="auditTimestampCol" prefWidth="105.5999755859375" text="Timestamp" />
+                        <TableColumn fx:id="auditActorCol" prefWidth="76.800048828125" text="Actor" />
+                        <TableColumn fx:id="auditActionCol" prefWidth="76.0" text="Action" />
+                        <TableColumn fx:id="auditEntityTypeCol" prefWidth="106.4000244140625" text="Entity Type " />
+                        <TableColumn fx:id="auditEntityIdCol" prefWidth="71.199951171875" text="Entity ID" />
+                        <TableColumn fx:id="auditMessageCol" prefWidth="118.4000244140625" text="Message" />
+                     </columns>
+                  </TableView>
+               </center>
+               <bottom>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" text="Search by Actor : " textAlignment="CENTER" GridPane.halignment="RIGHT" />
+                        <TextField fx:id="searchActorInput" GridPane.columnIndex="1" />
+                        <Label alignment="CENTER" layoutX="52.0" layoutY="16.0" text="Filter by Entity Type : " textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                        <ChoiceBox fx:id="choiceBoxEntityType" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" />
+                        <Label alignment="CENTER" text="Search By Date Range : " textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="searchAuditStartDateInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="searchAuditEndDateInput" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </bottom>
+               <top>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="TOP_CENTER" text="View Audit Log History" GridPane.columnSpan="2">
+                           <font>
+                              <Font name="Lucida Sans Demibold Italic" size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Button fx:id="btnExportAuditLogs" mnemonicParsing="false" text="Export" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                     </children>
+                  </GridPane>
+               </top>
+            </BorderPane>
+            <BorderPane fx:id="borderPaneLoyalty" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-border-color: black;" visible="false">
+               <center>
+                  <TableView fx:id="tableLoyalty" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn fx:id="loyaltyIdCol" prefWidth="50.4000244140625" text="ID" />
+                        <TableColumn fx:id="loyaltyGuestCol" prefWidth="105.5999755859375" text="Name of Guest" />
+                        <TableColumn fx:id="loyaltyPhoneCol" prefWidth="115.20001220703125" text="Phone Number" />
+                        <TableColumn fx:id="loyaltyNumCol" prefWidth="108.79998779296875" text="Loyalty Number" />
+                        <TableColumn fx:id="loyaltyActiveCol" prefWidth="91.199951171875" text="Active Status" />
+                        <TableColumn fx:id="loyaltyPtsCol" prefWidth="132.0" text="Loyalty Points" />
+                     </columns>
+                  </TableView>
+               </center>
+               <bottom>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" text="Find by Phone : " textAlignment="CENTER" GridPane.halignment="RIGHT" />
+                        <TextField fx:id="searchLoyaltyPhoneInput" promptText="Enter Phone Number" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                        <Label alignment="CENTER" layoutX="52.0" layoutY="16.0" text="Earning Rate : " textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
+                        <ChoiceBox fx:id="choiceBoxEarningRate" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <Button fx:id="btnViewRedemptionHistory" mnemonicParsing="false" text="View Redemption History" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER" layoutX="421.0" layoutY="16.0" text="Redemption Cap  : " textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <ChoiceBox fx:id="choiceBoxRedemptionCap" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </bottom>
+               <top>
+                  <GridPane BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="TOP_CENTER" text="Loyalty Program">
+                           <font>
+                              <Font name="Lucida Sans Demibold Italic" size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Button fx:id="btnUpdateLoyaltyDetails" mnemonicParsing="false" text="Update Details" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                        <Button fx:id="btnCancelLoyaltyMembership" mnemonicParsing="false" text="Cancel Membership" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                        <Button fx:id="btnAddLoyaltyMember" layoutX="392.0" layoutY="12.0" mnemonicParsing="false" text="Add Member" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                     </children>
+                  </GridPane>
+               </top>
+            </BorderPane>
+         </children>
+      </StackPane>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: NAVAJOWHITE; -fx-border-color: orange; -fx-max-width: parent-width;" text="Vladislav Zolotukhin - 170945224" textAlignment="CENTER" visible="false" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Franklin Gothic Heavy" size="17.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
