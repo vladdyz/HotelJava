@@ -301,3 +301,6 @@ select id from final table ( insert into Reservations (id, checkIn, checkOut, gu
 	at javafx.graphics/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
 	at javafx.graphics/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:184)
 	at java.base/java.lang.Thread.run(Thread.java:829)
+2025-12-03 19:38:40.663781-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "RESERVATIONSTATUS CHARACTER VARYING(10)": "'CHECKED_OUT' (11)"; SQL statement:
+update Reservations set checkIn=?, checkOut=?, guest_id=?, numAdults=?, numChildren=?, reservationStatus=? where id=? [22001-224]
