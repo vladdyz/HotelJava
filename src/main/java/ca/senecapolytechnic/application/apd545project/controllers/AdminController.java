@@ -3,12 +3,11 @@ package ca.senecapolytechnic.application.apd545project.controllers;
 import ca.senecapolytechnic.application.apd545project.AppConfig;
 import ca.senecapolytechnic.application.apd545project.config.LoyaltyPolicy;
 import ca.senecapolytechnic.application.apd545project.models.*;
-import ca.senecapolytechnic.application.apd545project.repositories.GuestRepository;
-import ca.senecapolytechnic.application.apd545project.repositories.ReservationRepository;
-import ca.senecapolytechnic.application.apd545project.repositories.ReservationRoomRepository;
-import ca.senecapolytechnic.application.apd545project.repositories.RoomRepository;
+import ca.senecapolytechnic.application.apd545project.repositories.*;
 import ca.senecapolytechnic.application.apd545project.security.AuthService;
-import ca.senecapolytechnic.application.apd545project.utils.GuiceFXMLLoader;
+import ca.senecapolytechnic.application.apd545project.services.ActivityLogService;
+import ca.senecapolytechnic.application.apd545project.services.ReportingService;
+import ca.senecapolytechnic.application.apd545project.utils.*;
 import com.google.inject.Inject;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,11 +19,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +31,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.logging.LogManager;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AdminController {
@@ -96,6 +94,7 @@ public class AdminController {
     private ChoiceBox<ReservationStatus> choiceBoxReservationStatus;
     @FXML
     private Button btnReservationsCheckout;
+
 
     // section 2 - Guests
     @FXML
@@ -158,6 +157,10 @@ public class AdminController {
     private TextField occupancyPercentage;
     @FXML
     private Button btnExportRoomMgmt;
+    @FXML
+    private Button btnExportRoomMgmtCSV;
+    @FXML
+    private Label labelUrgentWaitlist;
 
     // section 4 - feedback submissions
     @FXML
@@ -167,7 +170,7 @@ public class AdminController {
     @FXML
     private TableView<Feedback> tableFeedback;
     @FXML
-    private TableColumn<Feedback, Integer> feedbackIdCol;
+    private TableColumn<Feedback, Long> feedbackIdCol;
     @FXML
     private TableColumn<Feedback, String> feedbackGuestCol;
     @FXML
@@ -179,7 +182,7 @@ public class AdminController {
     @FXML
     private TableColumn<Feedback, String> feedbackSentimentCol;
     @FXML
-    private TableColumn<Feedback, Date> feedbackCreatedCol;
+    private TableColumn<Feedback, LocalDate> feedbackCreatedCol;
     @FXML
     private TextField searchGuestInput3;
     @FXML
@@ -199,11 +202,13 @@ public class AdminController {
     @FXML
     private Button btnExportAuditLogs;
     @FXML
+    private Button btnExportAuditLogsCSV;
+    @FXML
     private TableView<AuditLog> tableAudit;
     @FXML
-    private TableColumn<AuditLog, Integer> auditIdCol;
+    private TableColumn<AuditLog, Long> auditIdCol;
     @FXML
-    private TableColumn<AuditLog, Date> auditTimestampCol;
+    private TableColumn<AuditLog, LocalDateTime> auditTimestampCol;
     @FXML
     private TableColumn<AuditLog, String> auditActorCol;
     @FXML
@@ -298,6 +303,17 @@ public class AdminController {
     @FXML
     private Label labelCheckOutReservationTitle;
 
+    // the loyalty history modal
+    @FXML
+    private Label labelLoyaltyHeader;
+    @FXML
+    private Label labelLoyaltySubHeader;
+    @FXML
+    private ListView<Object> loyaltyHistoryListView;
+    @FXML
+    private Button btnLoyaltyHistoryClose;
+
+
     private Logger Logger= LoggerFactory.getLogger(AdminController.class);
     private List<BorderPane> adminPages;
     private final GuiceFXMLLoader guiceLoader;
@@ -320,10 +336,33 @@ public class AdminController {
     private RoomRepository roomRepository;
     @Inject
     private ReservationRoomRepository reservationRoomRepository;
+    @Inject
+    private FeedbackRepository feedbackRepository;
+    @Inject
+    private AuditLogRepository auditLogRepository;
+    @Inject
+    private BillingRepository billingRepository;
+    @Inject
+    private ReportingService reportingService;
+    @Inject
+    private PaymentRepository paymentRepository;
+    @Inject
+    private ActivityLogService activityLogService;
+    @Inject
+    private WaitlistObserverImpl waitlistObserver;
+
+    //private final EntityManager em;
+
+    // file exports
+    private PdfExporter pdfExporter;
+    private CsvExporter csvExporter;
+
+
 
     @Inject
     public AdminController(GuiceFXMLLoader loader) {
         this.guiceLoader = loader;
+
     }
 
     public void init(AdminUser admin) {
@@ -363,6 +402,13 @@ public class AdminController {
         btnNewReservation.setOnAction(e -> handleNewReservation());
         btnUpdateAvailability.setOnAction(e->updateAvailabilityButton());
         initLoyaltyPane();
+        btnAddLoyaltyMember.setOnAction(e->onAddMemberClicked());
+        btnCancelLoyaltyMembership.setOnAction(e->onCancelMembershipClicked());
+        btnReservationsCheckout.setOnAction(e-> handleCheckout());
+        btnViewRedemptionHistory.setOnAction(e->handleLoyaltyHistory());
+        btnViewWaitlist.setOnAction(e->handleWaitListView());
+
+
 
         // tables
         initReservationColumns();
@@ -373,6 +419,10 @@ public class AdminController {
         loadRooms();
         initLoyaltyTable();
         loadLoyalty();
+        initializeFeedbackTable();
+        loadFeedback();
+        initializeAuditLogTable();
+        loadAuditLog();
 
 
         // search filters
@@ -394,6 +444,49 @@ public class AdminController {
         initRoomFilterListeners();
         updateOccupancyPercentage();
         searchLoyaltyPhoneInput.textProperty().addListener((obs, oldV, newV) -> applyLoyaltyFilters());
+        choiceBoxFeedbackSentiment.setItems(
+                FXCollections.observableArrayList(null, "Positive", "Neutral", "Negative")
+        );
+        choiceBoxFeedbackSentiment.setValue(null);
+        choiceBoxFeedbackRating.setItems(
+                FXCollections.observableArrayList(null, 1, 2, 3, 4, 5)
+        );
+        choiceBoxFeedbackRating.setValue(null);
+        choiceBoxFeedbackType.setDisable(true); // DEPRECATED
+        choiceBoxFeedbackType.setVisible(false);
+        initFeedbackFilters();
+        choiceBoxEntityType.getItems().addAll(
+                "AdminUser", "Billing", "DiscountPolicy", "Feedback",
+                "Guest", "LoyaltyPolicy", "Payment", "PricingPolicy",
+                "Reservation", "Room", "ServiceAddon", "Waitlist"
+        );
+        choiceBoxEntityType.getItems().add(0, "All");
+        choiceBoxEntityType.getSelectionModel().selectFirst();
+        choiceBoxEntityType.getItems().add(0, "All");
+        choiceBoxEntityType.getSelectionModel().selectFirst();
+        searchActorInput.textProperty().addListener((obs, o, n) -> initAuditLogFilters());
+        choiceBoxEntityType.valueProperty().addListener((obs, o, n) -> initAuditLogFilters());
+        searchAuditStartDateInput.valueProperty().addListener((obs, o, n) -> initAuditLogFilters());
+        searchAuditEndDateInput.valueProperty().addListener((obs, o, n) -> initAuditLogFilters());
+        initFeedbackListeners();
+        Observable o = Observable.getInstance();
+        o.notificationProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && !newVal.isEmpty()) {
+                labelUrgentWaitlist.setText(newVal);
+                labelUrgentWaitlist.setVisible(true);
+            }
+        });
+
+
+        // file exports
+        btnExportAuditLogs.setOnAction(e->onExportAuditTXT());
+        btnExportAuditLogsCSV.setOnAction(e->onExportAuditCSV());
+        btnExportFeedback.setOnAction(e->onExportFeedback());
+        btnExportRoomMgmt.setOnAction(e->onExportRoom(true));
+        btnExportRoomMgmtCSV.setOnAction(e->onExportRoom(false));
+        // observer
+        waitlistObserver.checkAndNotify();
+
 
     }
 
@@ -428,6 +521,12 @@ public class AdminController {
         btnNewReservation.setOnAction(e -> handleNewReservation());
         btnUpdateAvailability.setOnAction(e->updateAvailabilityButton());
         initLoyaltyPane();
+        btnAddLoyaltyMember.setOnAction(e->onAddMemberClicked());
+        btnCancelLoyaltyMembership.setOnAction(e->onCancelMembershipClicked());
+        btnReservationsCheckout.setOnAction(e-> handleCheckout());
+        btnViewRedemptionHistory.setOnAction(e->handleLoyaltyHistory());
+        btnViewWaitlist.setOnAction(e->handleWaitListView());
+
 
         // tables
         initReservationColumns();
@@ -438,6 +537,11 @@ public class AdminController {
         loadRooms();
         initLoyaltyTable();
         loadLoyalty();
+        initializeFeedbackTable();
+        loadFeedback();
+        initializeAuditLogTable();
+        loadAuditLog();
+
 
         // search filters
         initReservationStatusFilter();
@@ -457,6 +561,45 @@ public class AdminController {
         initRoomFilterListeners();
         updateOccupancyPercentage();
         searchLoyaltyPhoneInput.textProperty().addListener((obs, oldV, newV) -> applyLoyaltyFilters());
+        choiceBoxFeedbackSentiment.setItems(
+                FXCollections.observableArrayList(null, "Positive", "Neutral", "Negative")
+        );
+        choiceBoxFeedbackSentiment.setValue(null);
+        choiceBoxFeedbackRating.setItems(
+                FXCollections.observableArrayList(null, 1, 2, 3, 4, 5)
+        );
+        choiceBoxFeedbackRating.setValue(null);
+        choiceBoxFeedbackType.setDisable(true); // DEPRECATED
+        choiceBoxFeedbackType.setVisible(false);
+        initFeedbackFilters();
+        choiceBoxEntityType.getItems().addAll(
+                "AdminUser", "Billing", "DiscountPolicy", "Feedback",
+                "Guest", "LoyaltyPolicy", "Payment", "PricingPolicy",
+                "Reservation", "Room", "ServiceAddon", "Waitlist"
+        );
+        choiceBoxEntityType.getItems().add(0, "All");
+        choiceBoxEntityType.getSelectionModel().selectFirst();
+        searchActorInput.textProperty().addListener((obs, o, n) -> initAuditLogFilters());
+        choiceBoxEntityType.valueProperty().addListener((obs, o, n) -> initAuditLogFilters());
+        searchAuditStartDateInput.valueProperty().addListener((obs, o, n) -> initAuditLogFilters());
+        searchAuditEndDateInput.valueProperty().addListener((obs, o, n) -> initAuditLogFilters());
+        initFeedbackListeners();
+        Observable o = Observable.getInstance();
+        o.notificationProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && !newVal.isEmpty()) {
+                labelUrgentWaitlist.setText(newVal);
+                labelUrgentWaitlist.setVisible(true);
+            }
+        });
+
+        // file exports
+        btnExportAuditLogs.setOnAction(e->onExportAuditTXT());
+        btnExportAuditLogsCSV.setOnAction(e->onExportAuditCSV());
+        btnExportFeedback.setOnAction(e->onExportFeedback());
+        btnExportRoomMgmt.setOnAction(e->onExportRoom(true));
+        btnExportRoomMgmtCSV.setOnAction(e->onExportRoom(false));
+        // observer
+        waitlistObserver.checkAndNotify();
 
 
     }
@@ -539,12 +682,18 @@ public class AdminController {
         }
     }
     private void logOut() {
+        // create an audit log of the event
+        activityLogService.log(loggedInAdmin.getUsername() + " (" + loggedInAdmin.getRole() + ")",
+                "LOGOUT", "AdminUser", loggedInAdmin.getId().intValue(),
+                "This admin has logged out");
+
         // first update the db to set active to false
         deactivateAdmin(loggedInAdmin);
         // clear state
         AuthService.logout();
         // finally redirect to welcome page
         Logger.info("Admin logged out and session cleared");
+
         try {
             //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ca/senecapolytechnic/application/apd545project/customer-view.fxml"));
             //fxmlLoader.setControllerFactory(injector::getInstance);
@@ -565,7 +714,7 @@ public class AdminController {
 
     // loading functions
 
-    // RESERVATIONS (initialize tables, load records from db, apply filters)
+    // RESERVATIONS (init tables, load records from db, apply filters)
     private void initReservationColumns() {
         reservationIdCol.setCellValueFactory(cell ->
                 new SimpleObjectProperty<>(cell.getValue().getId())
@@ -711,23 +860,66 @@ public class AdminController {
          // NEW and taking into account DA
 
         EntityManager em = AppConfig.getEntityManager();
+        try {
+            em.getTransaction().begin();
 
-        Reservation res = reservationRepository.findById(selected.getId());
-        res.setReservationStatus(ReservationStatus.CANCELLED);
-        em.merge(res);
+            //Reservation res = reservationRepository.findById(selected.getId());
+            Reservation res = em.find(Reservation.class, selected.getId());
+            res.setReservationStatus(ReservationStatus.CANCELLED);
+            em.merge(res);
 
-        List<ReservationRoom> rrs = reservationRoomRepository.findByReservation(res.getId());
-        for (ReservationRoom rr : rrs) {
-            // optionally update room status if needed
-            Room room = em.find(Room.class, rr.getRoom().getId());
-            em.remove(em.contains(rr) ? rr : em.merge(rr));
-            // recompute occupancy for this room:
-            boolean stillOccupied = reservationRoomRepository.existsOverlapForRoom(room.getId(), LocalDate.now(), LocalDate.now().plusDays(1));
-            if (!stillOccupied) {
-                room.setRoomStatus(RoomStatus.AVAILABLE);
-                em.merge(room);
+            /*
+            List<ReservationRoom> rrs = reservationRoomRepository.findByReservation(res.getId());
+
+            for (ReservationRoom rr : rrs) {
+                Room room = em.find(Room.class, rr.getRoom().getId());
+                em.remove(em.contains(rr) ? rr : em.merge(rr));
+                boolean stillOccupied = reservationRoomRepository.existsOverlapForRoom(room.getId(), LocalDate.now(), LocalDate.now().plusDays(1));
+                if (!stillOccupied) {
+                    room.setRoomStatus(RoomStatus.AVAILABLE);
+                    em.merge(room);
+                }
             }
+               */
+            List<ReservationRoom> links = em.createQuery(
+                            "SELECT rr FROM ReservationRoom rr WHERE rr.reservation.id = :id",
+                            ReservationRoom.class)
+                    .setParameter("id", res.getId())
+                    .getResultList();
+            for (ReservationRoom rr : links) {
+
+                Room room = rr.getRoom(); // already managed
+
+                // Remove the link
+                em.remove(rr);
+
+                // Recompute if the room is still occupied on ANY overlapping reservation
+                boolean occupied = reservationRoomRepository
+                        .existsOverlapForRoom(room.getId(), LocalDate.now(), LocalDate.now().plusDays(1));
+
+                if (!occupied) {
+                    room.setRoomStatus(RoomStatus.AVAILABLE);
+                    em.merge(room);
+                }
+            }
+
+            em.getTransaction().commit();
+            // this should generate an audit log
+            activityLogService.log(loggedInAdmin.getUsername() + " (" + loggedInAdmin.getRole() + ")",
+                    "CANCELLED_RESERVATION", "Reservation", res.getId().intValue(),
+                    "Reservation " + res.getId() + " cancelled by this admin");
+            loadAuditLog();
+            waitlistObserver.checkAndNotify();
+
+
+            showAlert(Alert.AlertType.CONFIRMATION, "Success", "Reservation has been cancelled.");
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
         }
+        loadReservations();
     }
     @FXML
     private void handleNewReservation() {
@@ -891,11 +1083,26 @@ public class AdminController {
                 showAlert(Alert.AlertType.WARNING, "No Room Selected", "Please select a room from the table.");
                 return;
             }
+            else if (selected.getRoomStatus() == RoomStatus.AVAILABLE) {
+                selected.setRoomStatus(RoomStatus.MAINTENANCE);
+            }
+            else if (selected.getRoomStatus() == RoomStatus.MAINTENANCE) {
+                selected.setRoomStatus(RoomStatus.AVAILABLE);
+            }
 
-            selected.setRoomStatus(RoomStatus.AVAILABLE);
-            roomRepository.save(selected);
+            roomRepository.update(selected);
 
             applyRoomFilters();
+            loadRooms();
+            Logger.info("UPDATED Room Availability of Room" + selected.getRoomNumber() + " to " + selected.getRoomStatus());
+
+
+            // create audit log
+            activityLogService.log(loggedInAdmin.getUsername() + " (" + loggedInAdmin.getRole() + ")",
+                    "UPDATED_ROOM_AVAILABILITY", "Room", selected.getId().intValue(),
+                    "Room " + selected.getRoomNumber() + " availability changed to " + selected.getRoomStatus());
+            loadAuditLog();
+
 
             showAlert(Alert.AlertType.CONFIRMATION,"Success", "Room availability updated.");
         });
@@ -903,7 +1110,9 @@ public class AdminController {
     private RoomStatus computeDisplayStatus(Room room, LocalDate date) {
         // check for date overlaps when figuring out the availability...
         boolean occupied = reservationRoomRepository.existsOverlapForRoom(room.getId(), date, date.plusDays(1));
-        return occupied ? RoomStatus.OCCUPIED : RoomStatus.AVAILABLE;
+        boolean maintenance = (room.getRoomStatus() == RoomStatus.MAINTENANCE);
+        //return occupied ? RoomStatus.OCCUPIED : RoomStatus.AVAILABLE;
+        return occupied ? RoomStatus.OCCUPIED : (maintenance ? RoomStatus.MAINTENANCE : RoomStatus.AVAILABLE);
     }
     private void updateOccupancyPercentage() {
         LocalDate date =
@@ -963,6 +1172,11 @@ public class AdminController {
                 default:
                     policy.setEarningRate(1.0);
             }
+            activityLogService.log(loggedInAdmin.getUsername() + " (" + loggedInAdmin.getRole() + ")",
+                    "UPDATED_EARNING_RATE", "LoyaltyPolicy", 0,
+                    "Changed loyalty point earning rate to " + policy.getEarningRate());
+            loadAuditLog();
+
         });
         choiceBoxRedemptionCap.getItems().clear();
         choiceBoxRedemptionCap.getItems().addAll(100, 500, 1000, 2000);
@@ -972,6 +1186,11 @@ public class AdminController {
         choiceBoxRedemptionCap.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 LoyaltyPolicy.getInstance().setRedemptionCap((Integer) newVal);
+                activityLogService.log(loggedInAdmin.getUsername() + " (" + loggedInAdmin.getRole() + ")",
+                        "UPDATED_REDEMPTION_CAP", "LoyaltyPolicy", 0,
+                        "Changed loyalty point redemption cap to " + LoyaltyPolicy.getInstance().getRedemptionCap());
+                loadAuditLog();
+
             }
         });
     }
@@ -1006,6 +1225,499 @@ public class AdminController {
                 FXCollections.observableArrayList(guestRepository.findAll())
         );
     }
+    @FXML
+    private void onAddMemberClicked() {
+        Guest selected = tableLoyalty.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert(Alert.AlertType.WARNING,"No Selection", "Please select a guest from the table.");
+            return;
+        }
+        if (Boolean.TRUE.equals(selected.getActive())) {
+            showAlert(Alert.AlertType.WARNING,"Already Active", "This guest is already a loyalty member.");
+            return;
+        }
+
+        // assign loyalty number if missing - moved to KioskController
+        /*
+        if (selected.getLoyaltyNumber() == null) {
+            loyaltyService.assignLoyaltyNumber(selected);
+        }
+        */
+
+        selected.setActive(true);
+        guestRepository.save(selected);
+        // log this
+        activityLogService.log(loggedInAdmin.getUsername() + " (" + loggedInAdmin.getRole() + ")",
+                "UPDATED_GUEST_LOYALTY", "Guest", selected.getId().intValue(),
+                "Activated loyalty membership of guest:  " + selected.getName());
+
+        loadAuditLog();
+        loadLoyalty();
+    }
+    @FXML
+    private void onCancelMembershipClicked() {
+        Guest selected = tableLoyalty.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a guest to cancel membership.");
+            return;
+        }
+
+        if (!Boolean.TRUE.equals(selected.getActive())) {
+            showAlert(Alert.AlertType.WARNING,"Not Active", "This guest is not currently an active loyalty member.");
+            return;
+        }
+
+        selected.setActive(false);
+        guestRepository.save(selected);
+        // log this
+        activityLogService.log(loggedInAdmin.getUsername() + " (" + loggedInAdmin.getRole() + ")",
+                "UPDATED_GUEST_LOYALTY", "Guest", selected.getId().intValue(),
+                "Cancelled loyalty membership of guest:  " + selected.getName());
+        loadAuditLog();
+        loadLoyalty();
+    }
+
+    private void initializeFeedbackTable() {
+
+        feedbackIdCol.setCellValueFactory(cell ->
+                new SimpleObjectProperty(cell.getValue().getId()));
+
+        feedbackGuestCol.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getGuest().getName()));
+
+        feedbackReservationIdCol.setCellValueFactory(cell ->
+                new SimpleObjectProperty(cell.getValue().getReservation().getId().intValue()));
+
+        feedbackRatingCol.setCellValueFactory(cell ->
+                new SimpleObjectProperty(cell.getValue().getRating()));
+
+        feedbackCommentsCol.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getComments()));
+
+        feedbackSentimentCol.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getSentimentTag()));
+
+        feedbackCreatedCol.setCellValueFactory(cell ->
+                new SimpleObjectProperty(
+                        cell.getValue().getCreatedAt().toLocalDate().toString()
+                ));
+    }
+    private void loadFeedback() {
+        tableFeedback.setItems(FXCollections.observableArrayList(feedbackRepository.findAll()));
+    }
+    private void initFeedbackFilters() {
+
+        String guestSearch = searchGuestInput3.getText().trim().toLowerCase();
+        Integer ratingFilter = (Integer) choiceBoxFeedbackRating.getValue();
+        String sentimentFilter = (String) choiceBoxFeedbackSentiment.getValue();
+
+        LocalDate startDate = searchFeedbackDateStartInput.getValue();
+        LocalDate endDate = searchFeedbackDateEndInput.getValue();
+        List<Feedback> allFeedback = feedbackRepository.findAll();
+
+        List<Feedback> filtered = allFeedback.stream()
+                .filter(f -> {
+                    if (!guestSearch.isEmpty()) {
+                        String guestName = f.getGuest().getName().toLowerCase();
+                        if (!guestName.contains(guestSearch)) return false;
+                    }
+
+                    if (ratingFilter != null && f.getRating() != ratingFilter)
+                        return false;
+
+                    if (sentimentFilter != null && !sentimentFilter.equalsIgnoreCase(f.getSentimentTag()))
+                        return false;
+
+                    LocalDate createdDate = f.getCreatedAt().toLocalDate();
+
+                    if (startDate != null && endDate != null) {
+                        if (createdDate.isBefore(startDate) || createdDate.isAfter(endDate))
+                            return false;
+                    } else if (startDate != null) {
+                        if (createdDate.isBefore(startDate)) return false;
+                    } else if (endDate != null) {
+                        if (createdDate.isAfter(endDate)) return false;
+                    }
+
+                    return true;
+                })
+                .collect(Collectors.toList());
+
+        tableFeedback.setItems(FXCollections.observableArrayList(filtered));
+    }
+    private void initFeedbackListeners() {
+
+        searchGuestInput3.textProperty().addListener((obs, o, n) -> initFeedbackFilters());
+        choiceBoxFeedbackRating.valueProperty().addListener((obs, o, n) -> initFeedbackFilters());
+        choiceBoxFeedbackSentiment.valueProperty().addListener((obs, o, n) -> initFeedbackFilters());
+
+        searchFeedbackDateStartInput.valueProperty().addListener((obs, o, n) -> initFeedbackFilters());
+        searchFeedbackDateEndInput.valueProperty().addListener((obs, o, n) -> initFeedbackFilters());
+    }
+
+    // audit logs
+    private void initializeAuditLogTable() {
+        auditIdCol.setCellValueFactory(cell ->
+                new SimpleObjectProperty(cell.getValue().getId()));
+        auditTimestampCol.setCellValueFactory(cell ->
+                new SimpleObjectProperty(cell.getValue().getTimestamp()));
+        auditActorCol.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getActor()));
+        auditActionCol.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getAction()));
+        auditEntityTypeCol.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getEntityType()));
+        auditEntityIdCol.setCellValueFactory(cell ->
+                new SimpleObjectProperty(cell.getValue().getEntityId()));
+        auditMessageCol.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getMessage()));
+
+    }
+    private void initAuditLogFilters() {
+       // List<AuditLog> list = auditLogRepository.findAll();
+       // List<AuditLog> filtered = new ArrayList<>(list);
+        List<AuditLog> filtered = auditLogRepository.findAll();
+        LocalDate start = searchAuditStartDateInput.getValue();
+        LocalDate end = searchAuditEndDateInput.getValue();
+
+        String actorSearch = searchActorInput.getText().trim().toLowerCase();
+        if (!actorSearch.isEmpty()) {
+            filtered = filtered.stream()
+                    .filter(a -> a.getActor().toLowerCase().contains(actorSearch))
+                    .collect(Collectors.toList());
+        }
+        String entityType = (String) choiceBoxEntityType.getValue();
+        if (!"All".equals(entityType)) {
+            filtered = filtered.stream()
+                    .filter(a -> a.getEntityType().equals(entityType))
+                    .collect(Collectors.toList());
+        }
+        if (start != null) {
+            LocalDateTime startDate = start.atStartOfDay();
+            filtered = filtered.stream()
+                    .filter(a -> !a.getTimestamp().isBefore(startDate))
+                    .collect(Collectors.toList());
+        }
+        if (end != null) {
+            LocalDateTime endDate = end.plusDays(1).atStartOfDay();
+            filtered = filtered.stream()
+                    .filter(a -> a.getTimestamp().isBefore(endDate))
+                    .collect(Collectors.toList());
+        }
+
+        tableAudit.getItems().setAll(filtered);
+    }
+    private void loadAuditLog() {
+        tableAudit.setItems(FXCollections.observableArrayList(auditLogRepository.findAll()));
+    }
+
+    private void handleCheckout() {
+        Reservation selected = tableReservations.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a reservation to check out.");
+            Logger.info("Couldn't checkout reservation: None specified");
+            return;
+        }
+        // need to load the billing object that corresponds to the selected reservation
+        // there should always be one (they are created together) but check just in case
+        Billing billing = billingRepository.findByReservationId(selected.getId());
+        if (billing == null) {
+            showAlert(Alert.AlertType.ERROR, "Missing Billing",
+                    "This reservation does not have an associated billing record.");
+            Logger.error("Could not checkout reservation: No billing record found.");
+            return;
+        }
+        // instead of using controller params, use the service
+        reportingService.setSelectedReservation(selected);
+        reportingService.setSelectedBilling(billing);
+
+        if (selected.getReservationStatus() == ReservationStatus.CHECKED_OUT) {
+            //showAlert(Alert.AlertType.INFORMATION, "Already Checked Out", "This reservation is already checked out. Would you like to view its payment history?");
+            Logger.info("Couldn't checkout reservation: Already checked out");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Already Checked Out");
+            alert.setHeaderText("This reservation has already been checked out.");
+            alert.setContentText("Would you like to view its payment history?");
+            ButtonType yes = new ButtonType("Yes");
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(yes, no);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == yes) {
+                Logger.info("Viewing payment history");
+                try {
+                    // FXMLLoader loader = new FXMLLoader(
+                    //        getClass().getResource("/ca/senecapolytechnic/application/apd545project/admin-checkout-view.fxml"));
+                    // Parent root = loader.load();
+                    // works now with services
+                    Parent root = guiceLoader.load(
+                            "/ca/senecapolytechnic/application/apd545project/admin-checkout-view.fxml"
+                    );
+
+
+
+                    //CheckoutController controller = loader.getController();
+                    //controller.init(selected, billing, this.loggedInAdmin);
+
+                    Stage stage = (Stage) btnReservationsCheckout.getScene().getWindow();
+                    stage.setTitle("Checkout – Reservation #" + selected.getId());
+                    stage.setScene(new Scene(root));
+                    //stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to load checkout screen.");
+                }
+
+            }
+            Logger.info("Checkout prevented. Reservation already checked out.");
+            return;
+        }
+
+        // transition scene, need to specify the billing for the next controller to handle it
+        try {
+           // FXMLLoader loader = new FXMLLoader(
+           //        getClass().getResource("/ca/senecapolytechnic/application/apd545project/admin-checkout-view.fxml"));
+           // Parent root = loader.load();
+            // works now with services
+            Parent root = guiceLoader.load(
+                   "/ca/senecapolytechnic/application/apd545project/admin-checkout-view.fxml"
+            );
+
+
+
+            //CheckoutController controller = loader.getController();
+            //controller.init(selected, billing, this.loggedInAdmin);
+
+            Stage stage = (Stage) btnReservationsCheckout.getScene().getWindow();
+            stage.setTitle("Checkout – Reservation #" + selected.getId());
+            stage.setScene(new Scene(root));
+            //stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load checkout screen.");
+        }
+
+    }
+
+    // loyalty points earning history modal...
+    private void handleLoyaltyHistory() {
+        Guest selected = tableLoyalty.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a guest to view loyalty history.");
+            Logger.info("Couldn't view loyalty history: No guest specified");
+            return;
+        }
+        try {
+            reportingService.setSelectedGuest(selected);
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ca/senecapolytechnic/application/apd545project/loyalty-history-view.fxml")
+            );
+            loader.setController(this);
+            Parent root = loader.load();
+
+            Stage modal = new Stage();
+            modal.setTitle("Loyalty History");
+            modal.initModality(Modality.APPLICATION_MODAL);
+            modal.setScene(new Scene(root));
+
+            populateLoyaltyHistory();
+
+            btnLoyaltyHistoryClose.setOnAction(e -> modal.close());
+
+            modal.show();
+        } catch (Exception e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to load loyalty history.");
+            }
+
+    }
+
+    private void populateLoyaltyHistory() {
+        Guest selected = reportingService.getSelectedGuest();
+        labelLoyaltyHeader.setText("Loyalty Points History for Guest: " + selected.getName());
+
+        labelLoyaltySubHeader.setText("Loyalty Points Balance: " + selected.getLoyaltyPoints() +
+                " - Account Number: " + selected.getLoyaltyNumber());
+
+        // listview stuff - complicated !
+        // reservations are connected to guests, and to billings, which are connected to payments
+        // since we know who the guest is from the table, we need the reservations for the rest
+
+        LocalDateTime date;
+        String type; // "EARNED" or "REDEEMED"
+        double amount;
+        // EDIT: This works better as a class since we can sort the result (cant sort the string...)
+        class LoyaltyHistoryEntry {
+            private LocalDateTime date;
+            private String type; // "EARNED" or "REDEEMED"
+            private double amount;
+
+            public LoyaltyHistoryEntry(LocalDateTime date, String type, double amount) {
+                this.date = date;
+                this.type = type;
+                this.amount = amount;
+            }
+            public LocalDateTime getDate() { return date; }
+            @Override
+            public String toString() {
+                return date.toLocalDate() + " - " + type + " - " +
+                        (type.equals("REDEEMED") ? "-" : "+") +
+                        (int) amount;
+            }
+        }
+        //List<String> entries = new ArrayList<>();
+        List<LoyaltyHistoryEntry> entries = new ArrayList<>();
+        List<Reservation> reservations =
+                reservationRepository.findByGuestId(selected.getId());
+
+        // each reservetation should have a billing
+        for (Reservation r : reservations) {
+            Billing billing = billingRepository.findByReservationId(r.getId());
+
+            // calc loyalty points EARNED
+            LocalDateTime earnedDate = r.getCheckIn(); // your assumption
+            double earnedAmount = billing.getTotalAmount();
+            //entries.add(earnedDate.toString() + " - EARNED - +" + earnedAmount);
+            entries.add(new LoyaltyHistoryEntry(
+                    earnedDate,
+                    "EARNED",
+                    earnedAmount
+            ));
+
+            // now get all the spending/redemptions
+            List<Payment> payments =
+                    paymentRepository.findByBillingId(billing.getId());
+            // only payments where the guest pays with loyalty points
+            for (Payment p : payments) {
+                if (p.getMethod() == PaymentMethod.POINTS) {
+                    //entries.add(p.getCreatedAt().toString() + " - REDEEMED - -" + p.getAmount());
+                    entries.add(new LoyaltyHistoryEntry(
+                            p.getCreatedAt(),
+                            "REDEEMED",
+                            p.getAmount()
+                    ));
+                }
+            }
+            entries.sort(Comparator.comparing(LoyaltyHistoryEntry::getDate));
+           // loyaltyHistoryListView.getItems().setAll(String.valueOf(entries));
+            //loyaltyHistoryListView.setItems(entries);
+            loyaltyHistoryListView.getItems().setAll(entries);
+        }
+
+    }
+    @FXML
+    private void onExportAuditTXT() {
+        try {
+            csvExporter.exportAuditLogsTXT(tableAudit.getItems());
+            showAlert(Alert.AlertType.CONFIRMATION, "Export Success", "Audit Logs successfully exported to /export folder");
+        } catch (Exception ex) {
+            showAlert(Alert.AlertType.ERROR,"Export Failed", "Exporting audit logs failed: " + ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void onExportAuditCSV() {
+        try {
+            csvExporter.exportAuditLogsCSV(tableAudit.getItems());
+            showAlert(Alert.AlertType.CONFIRMATION, "Export Success", "Audit Logs successfully exported to /export folder");
+        } catch (Exception ex) {
+            showAlert(Alert.AlertType.ERROR,"Export Failed", "Exporting audit logs failed: " + ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void onExportFeedback() {
+        try {
+            csvExporter.exportFeedbackCSV(tableFeedback.getItems());
+            showAlert(Alert.AlertType.CONFIRMATION, "Export Success", "Feedback successfully exported to /export folder");
+        } catch (Exception ex) {
+            showAlert(Alert.AlertType.ERROR,"Export Failed", "Exporting feedback failed: " + ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void onExportRoom(Boolean pdf) {
+        LocalDate date =
+                (roomDateFilterInput.getValue() != null)
+                        ? roomDateFilterInput.getValue()
+                        : LocalDate.now();
+        RoomType typeFilter = choiceBoxRoomTypeFilter.getValue();
+        // takes into account different room types
+        List<Room> rooms = roomRepository.findAll();
+        if (typeFilter != null) {
+            rooms = rooms.stream()
+                    .filter(r -> r.getRoomType() == typeFilter)
+                    .collect(Collectors.toList());
+        }
+        if (rooms.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR,"Export Failed", "Exporting rooms failed: No rooms to export");
+            return;
+        }
+
+        // percentage is dividing the occupied rooms by the total rooms
+        long occupiedCount = rooms.stream()
+                .filter(r -> computeDisplayStatus(r, date) == RoomStatus.OCCUPIED)
+                .count();
+       double occupancy = (occupiedCount * 100.0) / rooms.size();
+       String selected = (roomDateFilterInput.getValue() == null ? LocalDate.now() : roomDateFilterInput.getValue()).toString();
+       //selected.format(DateTimeFormatter.ISO_ZONED_DATE_TIME);
+
+        // i merged the pdf and csv into one function to reduce code duplicity
+        // check the param passed in to determine which file extension to export to
+
+        if (pdf) {
+            // passing in the rooms table data, the selected date filter value, and the calculated occupancy percentage
+            try {
+                pdfExporter.exportRoomPDF(tableRoomMgmt.getItems(),
+                        selected,
+                        occupancy
+                );
+                showAlert(Alert.AlertType.CONFIRMATION, "Export Success", "Room Occupancy successfully exported to /export folder");
+
+            } catch (Exception ex) {
+                showAlert(Alert.AlertType.ERROR, "Export Failed", "Exporting rooms failed: " + ex.getMessage());
+            }
+        }
+        else {
+            try {
+                csvExporter.exportOccupancy(tableRoomMgmt.getItems(),
+                        selected,
+                        occupancy
+                );
+                showAlert(Alert.AlertType.CONFIRMATION, "Export Success", "Room Occupancy successfully exported to /export folder");
+
+            } catch (Exception ex) {
+                showAlert(Alert.AlertType.ERROR, "Export Failed", "Exporting rooms failed: " + ex.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    private void handleWaitListView() {
+        try {
+            labelUrgentWaitlist.setText("");
+            labelUrgentWaitlist.setVisible(false);
+            Parent root = guiceLoader.load(
+                    "/ca/senecapolytechnic/application/apd545project/waitlist-view.fxml"
+            );
+
+            Stage stage = (Stage) btnViewWaitlist.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error opening view",  "Unable to open admin interface.");
+        }
+
+    }
+
 
 
 

@@ -11,7 +11,11 @@ module ca.senecapolytechnic.application.apd545project {
     requires javafx.graphics;
     requires java.sql;
     requires jul.to.slf4j;
-
+    requires javafx.base;
+    requires layout;
+    requires kernel;
+    requires jdk.xml.dom;
+    requires java.desktop;
 
 
     opens ca.senecapolytechnic.application.apd545project to javafx.fxml;

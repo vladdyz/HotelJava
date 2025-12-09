@@ -11,6 +11,8 @@ import java.io.IOException;
 public class GuiceFXMLLoader {
 
     private final Injector injector;
+    // i need this to pass some objects that aren't trac
+
 
     // use fxmlloader class custom controller factory (a generic callback) to reference the guice instance
     // then have guice construct controller
@@ -32,6 +34,11 @@ public class GuiceFXMLLoader {
     public Injector getInjector() {
         return injector;
     }
+
+
+
+
+
 
 
 }

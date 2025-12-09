@@ -20,6 +20,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
@@ -94,7 +96,7 @@ public class WelcomeController {
     @FXML
     private ChoiceBox choiceBoxCountry; // defined in the xml
     @FXML
-    private ChoiceBox choiceBoxStateProvince; // this needs to be set on initialize bc it either loads states or provinces
+    private ChoiceBox choiceBoxStateProvince; // this needs to be set on init bc it either loads states or provinces
     @FXML
     private Button btnStepThreeNextStep;
     @FXML
@@ -157,6 +159,11 @@ public class WelcomeController {
     @FXML
     private Button btnCancelLogin;
 
+
+    @FXML
+    private Button btnCloseRegulations;
+
+
     private Injector injector;
     private Stage primaryStage;
 
@@ -166,7 +173,7 @@ public class WelcomeController {
     public WelcomeController(GuiceFXMLLoader loader) {
         this.guiceLoader = loader;
     }
-
+    private static Logger Logger= LoggerFactory.getLogger(WelcomeController.class);
 
     @FXML
     private void initialize() {
@@ -174,6 +181,8 @@ public class WelcomeController {
         //btnCancelLogin.setOnAction(e -> handleCancel());
         btnAdminLogin.setOnAction(e->adminLogin());
         btnCustomer.setOnAction(e->customerView());
+        btnFeedback.setOnAction(e->feedbackView());
+        btnRegulations.setOnAction(e->regulationsView());
     }
 
     // admin login window
@@ -201,8 +210,8 @@ public class WelcomeController {
     }
 
     private AuthServiceImpl getAuthService() {
-        EntityManager em = AppConfig.getEntityManager();
-        AdminUserRepositoryImpl repo = new AdminUserRepositoryImpl(em);
+        //EntityManager em = AppConfig.getEntityManager();
+        AdminUserRepositoryImpl repo = new AdminUserRepositoryImpl();
         BCryptPasswordHasher hasher = new BCryptPasswordHasher();
         return new AuthServiceImpl(repo, hasher);
     }
@@ -277,4 +286,40 @@ public class WelcomeController {
 
     }
 
+    private void feedbackView() {
+        try {
+            Parent root = guiceLoader.load("/ca/senecapolytechnic/application/apd545project/submit-feedback-view.fxml");
+            Stage stage = (Stage) btnCustomer.getScene().getWindow();
+            stage.setTitle("Customer Kiosk");
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private void regulationsView() {
+        try {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/ca/senecapolytechnic/application/apd545project/regulations-view.fxml")
+        );
+        loader.setController(this);
+        Parent root = loader.load();
+
+        Stage modal = new Stage();
+        modal.setTitle("Regulations");
+        modal.initModality(Modality.APPLICATION_MODAL);
+        modal.setScene(new Scene(root));
+
+
+        //btnCloseRegulations.setOnAction(e -> modal.close());
+
+        modal.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load hotel regulations.");
+            Logger.error("Error opening hotel regulations: " + e.getMessage());
+        }
+    }
 }

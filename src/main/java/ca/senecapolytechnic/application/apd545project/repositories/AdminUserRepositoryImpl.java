@@ -1,5 +1,6 @@
 package ca.senecapolytechnic.application.apd545project.repositories;
 
+import ca.senecapolytechnic.application.apd545project.AppConfig;
 import ca.senecapolytechnic.application.apd545project.models.AdminUser;
 import com.google.inject.Inject;
 
@@ -9,15 +10,9 @@ import javax.persistence.TypedQuery;
 
 public class AdminUserRepositoryImpl implements AdminUserRepository{
 
-    private final EntityManager em;
-
-
-    @Inject
-    public AdminUserRepositoryImpl(EntityManager em) {
-        this.em = em;
-    }
 
     public AdminUser findByUsername(String username) {
+        EntityManager em = AppConfig.getEntityManager();
         try {
             TypedQuery<AdminUser> q = em.createQuery(
                     "SELECT a FROM AdminUser a WHERE a.username = :u",
@@ -28,15 +23,22 @@ public class AdminUserRepositoryImpl implements AdminUserRepository{
         } catch (NoResultException nre) {
             return null;
         }
+
     }
 
     public void save(AdminUser user) {
+        EntityManager em = AppConfig.getEntityManager();
+        try {
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 
     public void update(AdminUser user) {
+        EntityManager em = AppConfig.getEntityManager();
         em.getTransaction().begin();
         em.merge(user);
         em.getTransaction().commit();

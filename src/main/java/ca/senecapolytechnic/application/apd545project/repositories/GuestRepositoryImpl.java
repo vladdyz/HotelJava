@@ -2,14 +2,17 @@ package ca.senecapolytechnic.application.apd545project.repositories;
 
 import ca.senecapolytechnic.application.apd545project.AppConfig;
 import ca.senecapolytechnic.application.apd545project.models.Guest;
+import com.google.inject.Inject;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 public class GuestRepositoryImpl implements GuestRepository{
+
+
     @Override
     public Guest save(Guest guest) {
-        EntityManager em = AppConfig.getEntityManager();
+       EntityManager em = AppConfig.getEntityManager();
         try {
             em.getTransaction().begin();
             if (guest.getId() == null) {
@@ -88,7 +91,7 @@ public class GuestRepositoryImpl implements GuestRepository{
     }
     @Override
     public Guest findByLoyaltyNumber(Integer loyaltyNumber) {
-        EntityManager em = AppConfig.getEntityManager();
+       EntityManager em = AppConfig.getEntityManager();
         try {
             List<Guest> result = em.createQuery(
                             "SELECT g FROM Guest g WHERE g.loyaltyNumber = :loyaltyNumber", Guest.class)

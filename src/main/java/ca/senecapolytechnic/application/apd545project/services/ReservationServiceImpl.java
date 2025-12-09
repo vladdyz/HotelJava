@@ -1,5 +1,7 @@
 package ca.senecapolytechnic.application.apd545project.services;
 
+import ca.senecapolytechnic.application.apd545project.AppConfig;
+import ca.senecapolytechnic.application.apd545project.config.PricingPolicy;
 import ca.senecapolytechnic.application.apd545project.models.*;
 import ca.senecapolytechnic.application.apd545project.repositories.*;
 import ca.senecapolytechnic.application.apd545project.utils.ReservationObj;
@@ -26,10 +28,11 @@ public class ReservationServiceImpl implements ReservationService {
     private final AddonRepository addonRepo;
     private final BillingRepository billingRepo;
     private final LoyaltyService loyaltyService;
-    private final EntityManager em;
+    //private final EntityManager em;
+    private static final PricingPolicy pricingPolicy = new PricingPolicy();
 
     // ontario tax rate
-    private static final double TAX_RATE = 0.13;
+    private static final double TAX_RATE = pricingPolicy.getTaxRate(); // 0.13
 
     @Inject
     public ReservationServiceImpl(RoomRepository roomRepo,
@@ -39,8 +42,8 @@ public class ReservationServiceImpl implements ReservationService {
                                   ReservationAddonRepository reservationAddonRepo,
                                   AddonRepository addonRepo,
                                   BillingRepository billingRepo,
-                                  LoyaltyService loyaltyService,
-                                  EntityManager em) {
+                                  LoyaltyService loyaltyService)
+                                   {
         this.roomRepo = roomRepo;
         this.guestRepo = guestRepo;
         this.reservationRepo = reservationRepo;
@@ -49,7 +52,7 @@ public class ReservationServiceImpl implements ReservationService {
         this.addonRepo = addonRepo;
         this.billingRepo = billingRepo;
         this.loyaltyService = loyaltyService;
-        this.em = em;
+        //this.em = em;
     }
 
     @Override
@@ -69,7 +72,6 @@ public class ReservationServiceImpl implements ReservationService {
         int roomsRequested = req.requestedRooms.values().stream().mapToInt(Integer::intValue).sum();
         if (roomsRequested <= 0) throw new RuntimeException("Must request at least one room");
 
-        // check capacity: compute potential capacity from requested rooms
         int capacity = req.requestedRooms.entrySet().stream().mapToInt(e -> {
             RoomType type = e.getKey();
             int count = e.getValue();
@@ -110,6 +112,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         // if all validations passed then create entities in a single transaction
+        EntityManager em = AppConfig.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();

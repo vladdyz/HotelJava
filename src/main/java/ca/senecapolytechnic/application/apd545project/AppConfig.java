@@ -1,5 +1,6 @@
 package ca.senecapolytechnic.application.apd545project;
 
+import ca.senecapolytechnic.application.apd545project.config.EntityManagerProvider;
 import ca.senecapolytechnic.application.apd545project.controllers.AdminController;
 import ca.senecapolytechnic.application.apd545project.models.*;
 import ca.senecapolytechnic.application.apd545project.security.BCryptPasswordHasher;
@@ -13,12 +14,18 @@ import javax.persistence.Persistence;
 
 public class AppConfig {
     private static Logger Logger = LoggerFactory.getLogger(AppConfig.class);
+
+
+
+
     private static final EntityManagerFactory emf =
             Persistence.createEntityManagerFactory("hotelPU");
 
     public static EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+
+
 
     static {
         LoggerService.configure(); // for logging
@@ -45,6 +52,13 @@ public class AppConfig {
                         false
                 );
                 em.persist(admin);
+                AdminUser admin2 = new AdminUser(
+                  "Bob",
+                  BCryptPasswordHasher.hash("drowssap"),
+                  Role.MANAGER,
+                  false
+                );
+                em.persist(admin2);
                 em.flush(); // force an INSERT now so we can read generated id
                 Logger.info("Database pre-population successful, admin id = {}, username = {}, passwordHash = {}",
                         admin.getId(), admin.getUsername(), admin.getPasswordHash());

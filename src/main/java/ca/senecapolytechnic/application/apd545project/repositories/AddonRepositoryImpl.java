@@ -1,6 +1,7 @@
 package ca.senecapolytechnic.application.apd545project.repositories;
 import ca.senecapolytechnic.application.apd545project.AppConfig;
 import ca.senecapolytechnic.application.apd545project.models.ServiceAddon;
+import com.google.inject.Inject;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,6 +22,7 @@ public class AddonRepositoryImpl implements AddonRepository{
 
     @Override
     public ServiceAddon findById(Long id) {
+
         EntityManager em = AppConfig.getEntityManager();
         try {
             return em.find(ServiceAddon.class, id);
@@ -58,7 +60,7 @@ public class AddonRepositoryImpl implements AddonRepository{
 
     @Override
     public void update(ServiceAddon addon) {
-        EntityManager em = AppConfig.getEntityManager();
+       EntityManager em = AppConfig.getEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(addon);

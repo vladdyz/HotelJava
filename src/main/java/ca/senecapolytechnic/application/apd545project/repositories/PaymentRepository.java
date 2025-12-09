@@ -7,7 +7,7 @@ import java.util.List;
 public interface PaymentRepository {
     Payment save(Payment payment);
     Payment findById(Long id);
-    Payment findByBillingId(Long billingId);
+    List<Payment> findByBillingId(Long billingId);
     List<Payment> findAll();
     void delete(Long id);
 }

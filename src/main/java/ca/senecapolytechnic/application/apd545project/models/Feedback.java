@@ -11,8 +11,8 @@ public class Feedback implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    @JoinColumn(name="guest_id", nullable = false, unique = true)
+    @ManyToOne
+    @JoinColumn(name="guest_id", nullable = false)
     private Guest guest;
 
     public Long getId() {

@@ -17,4 +17,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
     public EntityManager get() {
         return emf.createEntityManager();
     }
+    public static EntityManagerFactory getFactory() {
+        return emf;
+    }
 }

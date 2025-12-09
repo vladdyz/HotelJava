@@ -26,7 +26,7 @@ public class LoggerService {
             rootLogger.addHandler(fileHandler);
 
         } catch (IOException e) {
-            rootLogger.log(Level.SEVERE, "Failed to initialize file logger", e);
+            rootLogger.log(Level.SEVERE, "Failed to init file logger", e);
         }
     }
 }

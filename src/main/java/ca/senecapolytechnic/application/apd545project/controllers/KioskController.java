@@ -2,6 +2,7 @@ package ca.senecapolytechnic.application.apd545project.controllers;
 
 import ca.senecapolytechnic.application.apd545project.AppConfig;
 import ca.senecapolytechnic.application.apd545project.MainApplication;
+import ca.senecapolytechnic.application.apd545project.config.PricingPolicy;
 import ca.senecapolytechnic.application.apd545project.models.*;
 import ca.senecapolytechnic.application.apd545project.repositories.*;
 import ca.senecapolytechnic.application.apd545project.security.BCryptPasswordHasher;
@@ -106,7 +107,7 @@ public class KioskController {
     @FXML
     private ChoiceBox choiceBoxCountry; // defined in the xml
     @FXML
-    private ChoiceBox choiceBoxStateProvince; // this needs to be set on initialize bc it either loads states or provinces
+    private ChoiceBox choiceBoxStateProvince; // this needs to be set on init bc it either loads states or provinces
     @FXML
     private Button btnStepThreeNextStep;
     @FXML
@@ -177,6 +178,10 @@ public class KioskController {
     @FXML
     private Button btnCancelLogin;
 
+    @FXML
+    private Button btnCloseRegulations;
+
+
     private Injector injector;
     private Stage primaryStage;
 
@@ -208,6 +213,7 @@ public class KioskController {
     private static Logger Logger= LoggerFactory.getLogger(KioskController.class);
 
     private ReservationObj currentDto;
+    private PricingPolicy pricingPolicy = new PricingPolicy();
 
     @Inject
     public KioskController(GuiceFXMLLoader loader, ReservationService reservationService) {
@@ -256,6 +262,8 @@ public class KioskController {
         checkBoxBreakfast.selectedProperty().addListener((obs, oldV, newV) -> updateAddonLabels());
         checkBoxParking.selectedProperty().addListener((obs, oldV, newV) -> updateAddonLabels());
         checkBoxSpa.selectedProperty().addListener((obs, oldV, newV) -> updateAddonLabels());
+        btnRegulationsCustView.setOnAction(e->regulationsView());
+        btnCheckout.setOnAction(e->showAlert(Alert.AlertType.INFORMATION, "Confirm checkout", "Please speak with a representative at the front desk to check out"));
     }
 
     // admin login window
@@ -283,8 +291,8 @@ public class KioskController {
     }
 
     private AuthServiceImpl getAuthService() {
-        EntityManager em = AppConfig.getEntityManager();
-        AdminUserRepositoryImpl repo = new AdminUserRepositoryImpl(em);
+       EntityManager em = AppConfig.getEntityManager();
+        AdminUserRepositoryImpl repo = new AdminUserRepositoryImpl();
         BCryptPasswordHasher hasher = new BCryptPasswordHasher();
         return new AuthServiceImpl(repo, hasher);
     }
@@ -562,7 +570,7 @@ public class KioskController {
                 billingService.calculateRoomSubtotal(selectedRooms, nights);
 
         double subtotal = roomSubtotal + addonTotal;
-        double tax = subtotal * 0.13;
+        double tax = subtotal * pricingPolicy.getTaxRate(); // double tax = subtotal * 0.13;
         double total = subtotal + tax;
 
         labelSubTotal.setText(String.format("$%.2f", subtotal));
@@ -600,10 +608,10 @@ public class KioskController {
         int nights = (int) java.time.temporal.ChronoUnit.DAYS.between(checkInDateInput.getValue(), checkOutDateInput.getValue());
 
 
-        double wifiPricePerNight = 10.0;
-        double breakfastPerPersonPerNight = 5.0;
-        double parkingPerNight = 20.0;
-        double spaFlat = 40.0;
+        double wifiPricePerNight = pricingPolicy.getWifiPricePerNight();  // 10.0
+        double breakfastPerPersonPerNight = pricingPolicy.getBreakfastPerPersonPerNight(); // 5.0
+        double parkingPerNight = pricingPolicy.getParkingPerNight(); // 20.0
+        double spaFlat = pricingPolicy.getSpaFlat(); // 40.0
 
         labelWiFiTotal.setText(checkBoxWiFi.isSelected() ? String.format("$%.2f", wifiPricePerNight * nights) : "$0.00");
 
@@ -733,10 +741,10 @@ public class KioskController {
                 Integer.parseInt(numChildrenInput.getText());
 
         int nights = (int) java.time.temporal.ChronoUnit.DAYS.between(checkInDateInput.getValue(), checkOutDateInput.getValue());
-        double wifi = checkBoxWiFi.isSelected() ? 10 * nights: 0;
-        double breakfast = checkBoxBreakfast.isSelected() ? 5 * nights *  people : 0;
-        double parking = checkBoxParking.isSelected() ? 20 * nights : 0;
-        double spa = checkBoxSpa.isSelected() ? 40 * people : 0;
+        double wifi = checkBoxWiFi.isSelected() ? pricingPolicy.getWifiPricePerNight() * nights: 0; // 10
+        double breakfast = checkBoxBreakfast.isSelected() ? pricingPolicy.getBreakfastPerPersonPerNight() * nights *  people : 0; // 5
+        double parking = checkBoxParking.isSelected() ? pricingPolicy.getParkingPerNight() * nights : 0; // 20
+        double spa = checkBoxSpa.isSelected() ? pricingPolicy.getSpaFlat() * people : 0; // 40
 
         labelWiFiTotal.setText(String.format("$%.2f", wifi));
         labelBreakfastTotal.setText(String.format("$%.2f", breakfast));
@@ -744,5 +752,29 @@ public class KioskController {
         labelSpaAccessTotal.setText(String.format("$%.2f", spa));
 
 
+    }
+
+    private void regulationsView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ca/senecapolytechnic/application/apd545project/regulations-view.fxml")
+            );
+            loader.setController(this);
+            Parent root = loader.load();
+
+            Stage modal = new Stage();
+            modal.setTitle("Regulations");
+            modal.initModality(Modality.APPLICATION_MODAL);
+            modal.setScene(new Scene(root));
+
+
+            //btnCloseRegulations.setOnAction(e -> modal.close());
+
+            modal.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load hotel regulations.");
+            Logger.error("Error opening hotel regulations: " + e.getMessage());
+        }
     }
 }

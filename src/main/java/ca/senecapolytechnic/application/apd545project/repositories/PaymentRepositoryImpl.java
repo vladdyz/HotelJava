@@ -1,41 +1,51 @@
 package ca.senecapolytechnic.application.apd545project.repositories;
 
 
+import ca.senecapolytechnic.application.apd545project.AppConfig;
 import ca.senecapolytechnic.application.apd545project.models.Payment;
 import ca.senecapolytechnic.application.apd545project.repositories.PaymentRepository;
 import com.google.inject.Inject;
 
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class PaymentRepositoryImpl implements PaymentRepository {
 
-    private final EntityManager em;
 
-    @Inject
-    public PaymentRepositoryImpl(EntityManager em) {
-        this.em = em;
-    }
 
     @Override
     public Payment save(Payment payment) {
-        if (payment.getId() == null) {
-            em.persist(payment);
-        } else {
-            payment = em.merge(payment);
+        EntityManager em = AppConfig.getEntityManager();
+        try {
+
+            em.getTransaction().begin();
+
+            if (payment.getId() == null) {
+                em.persist(payment);
+            } else {
+                payment = em.merge(payment);
+            }
+            em.getTransaction().commit();
+            return payment;
+        } finally {
+            em.close();
         }
-        return payment;
+
     }
 
     @Override
     public Payment findById(Long id) {
+        EntityManager em = AppConfig.getEntityManager();
+
         return em.find(Payment.class, id);
     }
 
     @Override
-    public Payment findByBillingId(Long billingId) {
+    public List<Payment> findByBillingId(Long billingId) {
+        EntityManager em = AppConfig.getEntityManager();
         TypedQuery<Payment> q = em.createQuery(
                 "SELECT p FROM Payment p WHERE p.billing.id = :billingId",
                 Payment.class
@@ -43,17 +53,19 @@ public class PaymentRepositoryImpl implements PaymentRepository {
         q.setParameter("billingId", billingId);
 
         List<Payment> results = q.getResultList();
-        return results.isEmpty() ? null : results.get(0);
+        return results; // dont want to crash if no payments found
     }
 
     @Override
     public List<Payment> findAll() {
+        EntityManager em = AppConfig.getEntityManager();
         return em.createQuery("SELECT p FROM Payment p", Payment.class)
                 .getResultList();
     }
 
     @Override
     public void delete(Long id) {
+        EntityManager em = AppConfig.getEntityManager();
         Payment payment = findById(id);
         if (payment != null) {
             em.remove(payment);

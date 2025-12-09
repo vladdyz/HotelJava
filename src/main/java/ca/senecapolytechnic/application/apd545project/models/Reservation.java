@@ -20,7 +20,7 @@ public class Reservation implements Serializable {
     private int numAdults;
     @Column
     private int numChildren;
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
     // i needed to add an additional field to establish relations w Guest parent

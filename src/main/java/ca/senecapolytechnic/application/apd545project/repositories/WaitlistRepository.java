@@ -11,4 +11,6 @@ public interface WaitlistRepository {
     List<Waitlist> findAll();
     List<Waitlist> findByGuestId(Long guestId);
     List<Waitlist> findByRoomType(RoomType type);
+    List<Waitlist> findByStatus(String status);
+    void delete(Long id);
 }

@@ -11,10 +11,9 @@ public class ReservationObj {
     public int numAdults;
     public int numChildren;
 
-    // requestedRooms: map RoomType -> count
+    // mapped
     public Map<RoomType, Integer> requestedRooms;
 
-    // Guest fields
     public String title;
     public String firstName;
     public String lastName;
@@ -22,10 +21,9 @@ public class ReservationObj {
     public String email;
     public String address;
 
-    // addons: map addonId -> quantity (or addon name -> quantity)
-    public Map<Long, Integer> addons; // if you use ids; alter if you want names instead
+    public Map<Long, Integer> addons;
 
-    // convenience:
+    // need to do this for billing
     public int totalNights() {
         return (int) java.time.temporal.ChronoUnit.DAYS.between(checkIn, checkOut);
     }

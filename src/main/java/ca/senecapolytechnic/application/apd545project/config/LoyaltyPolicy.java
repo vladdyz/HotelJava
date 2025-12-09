@@ -5,13 +5,13 @@ public class LoyaltyPolicy {
     private double earningRate = 1.0;
     private int redemptionCap = 1000;
 
-    // Singleton pattern ensures one global policy
+    // make sure policy is global and applies to everyone (singleton)
     private static final LoyaltyPolicy instance = new LoyaltyPolicy();
     public static LoyaltyPolicy getInstance() {
         return instance;
     }
 
-    private LoyaltyPolicy() {}
+    public LoyaltyPolicy() {}
 
     public double getEarningRate() {
         return earningRate;
@@ -27,6 +27,10 @@ public class LoyaltyPolicy {
 
     public void setRedemptionCap(int redemptionCap) {
         this.redemptionCap = redemptionCap;
+    }
+
+    public double convertPointsToDollars(int points) {
+        return points / 100.0;  // 100 points = $1
     }
 }
 

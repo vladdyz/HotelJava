@@ -5,6 +5,7 @@ import ca.senecapolytechnic.application.apd545project.models.AdminUser;
 import ca.senecapolytechnic.application.apd545project.repositories.AdminUserRepositoryImpl;
 import ca.senecapolytechnic.application.apd545project.security.AuthService;
 import ca.senecapolytechnic.application.apd545project.security.BCryptPasswordHasher;
+import ca.senecapolytechnic.application.apd545project.services.ActivityLogService;
 import ca.senecapolytechnic.application.apd545project.services.AuthServiceImpl;
 import ca.senecapolytechnic.application.apd545project.utils.GuiceFXMLLoader;
 import com.google.inject.Inject;
@@ -20,6 +21,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 
 public class LoginController {
@@ -37,6 +39,9 @@ public class LoginController {
 
     private final GuiceFXMLLoader guiceLoader;
     private static Logger Logger = LoggerFactory.getLogger(LoginController.class);
+
+    @Inject
+    private ActivityLogService activityLogService;
 
     @Inject
     public LoginController(GuiceFXMLLoader loader) {
@@ -68,6 +73,11 @@ public class LoginController {
             // before opening the admin ui, set active bool in authenticated user to true
             // this identifies which admin user is logged in
             activateAdmin(user);
+            // also create an audit log
+            activityLogService.log(user.getUsername() + " (" + user.getRole() + ")",
+                    "LOGIN", "AdminUser", user.getId().intValue(),
+                    "This admin has successfully logged in");
+
 
             openAdminInterface(user);
         } else {
@@ -79,8 +89,8 @@ public class LoginController {
     }
 
     private AuthServiceImpl getAuthService() {
-        EntityManager em = AppConfig.getEntityManager();
-        AdminUserRepositoryImpl repo = new AdminUserRepositoryImpl(em);
+        //EntityManager em = AppConfig.getEntityManager();
+        AdminUserRepositoryImpl repo = new AdminUserRepositoryImpl();
         BCryptPasswordHasher hasher = new BCryptPasswordHasher();
         return new AuthServiceImpl(repo, hasher);
     }

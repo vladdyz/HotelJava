@@ -12,13 +12,7 @@ import com.google.inject.Inject;
 
 public class RoomRepositoryImpl implements RoomRepository{
 
-    private final EntityManager em;
 
-
-    @Inject
-    public RoomRepositoryImpl(EntityManager em) {
-        this.em = em;
-    }
 
     @Override
     public void save(Room room) {
@@ -60,7 +54,7 @@ public class RoomRepositoryImpl implements RoomRepository{
 
     @Override
     public List<Room> findAll() {
-        EntityManager em = AppConfig.getEntityManager();
+       EntityManager em = AppConfig.getEntityManager();
         try {
             return em.createQuery("SELECT r FROM Room r", Room.class)
                     .getResultList();
@@ -71,7 +65,7 @@ public class RoomRepositoryImpl implements RoomRepository{
 
     @Override
     public void update(Room room) {
-        EntityManager em = AppConfig.getEntityManager();
+       EntityManager em = AppConfig.getEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(room);
@@ -97,7 +91,7 @@ public class RoomRepositoryImpl implements RoomRepository{
     }
     @Override
     public Room findByRoomType(RoomType roomType) {
-        EntityManager em = AppConfig.getEntityManager();
+      EntityManager em = AppConfig.getEntityManager();
         try {
             return em.createQuery(
                             "SELECT r FROM Room r WHERE r.roomType = :roomType",
@@ -111,7 +105,7 @@ public class RoomRepositoryImpl implements RoomRepository{
         }
     }
     public List<Room> findAvailable(RoomType type, LocalDate from, LocalDate to) {
-        EntityManager em = AppConfig.getEntityManager();
+      EntityManager em = AppConfig.getEntityManager();
         String hql = "select r from Room r where r.roomType = :type and r.id not in (" +
                 "select rr.room.id from ReservationRoom rr " +
                 "where not (rr.reservation.checkOut <= :from or rr.reservation.checkIn >= :to)" +
@@ -125,7 +119,7 @@ public class RoomRepositoryImpl implements RoomRepository{
 
     @Override
     public int countAvailableRooms(RoomType type) {
-        EntityManager em = AppConfig.getEntityManager();
+       EntityManager em = AppConfig.getEntityManager();
         try {
             Long count = em.createQuery(
                             "SELECT COUNT(r) FROM Room r WHERE r.roomType = :t AND r.roomStatus = :status"

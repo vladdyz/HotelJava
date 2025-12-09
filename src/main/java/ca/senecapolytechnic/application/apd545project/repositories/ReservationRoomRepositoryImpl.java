@@ -2,6 +2,7 @@ package ca.senecapolytechnic.application.apd545project.repositories;
 
 import ca.senecapolytechnic.application.apd545project.AppConfig;
 import ca.senecapolytechnic.application.apd545project.models.ReservationRoom;
+import com.google.inject.Inject;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -10,6 +11,9 @@ import java.util.List;
 // this is a bridge table but it needs its own repository, after consideration i decided to separate it from Reservation
 
 public class ReservationRoomRepositoryImpl implements ReservationRoomRepository {
+
+
+
 
     @Override
     public ReservationRoom save(ReservationRoom rr) {
@@ -57,7 +61,7 @@ public class ReservationRoomRepositoryImpl implements ReservationRoomRepository 
     // need to check if room is occupied for a given date in admin ui
     @Override
     public boolean existsOverlapForRoom(Long roomId, LocalDate from, LocalDate to) {
-        EntityManager em = AppConfig.getEntityManager();
+       EntityManager em = AppConfig.getEntityManager();
         try {
             Long count = em.createQuery(
                             "SELECT COUNT(rr) FROM ReservationRoom rr " +

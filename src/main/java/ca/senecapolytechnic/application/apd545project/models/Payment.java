@@ -14,8 +14,9 @@ public class Payment implements Serializable {
     private Long id;
 
     // payment must correspond to billing, cant exist without it (1 to 0...1)
-    @OneToOne(optional = false)
-    @JoinColumn(name = "billing_id", nullable = false, unique = true)
+    // EDIT: this should be 0...* - guest can make many partial payments to the billing
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "billing_id", nullable = false)
     private Billing billing;
 
     @Column(nullable = false, length = 20)
