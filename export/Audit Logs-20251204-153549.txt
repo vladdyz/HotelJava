@@ -1,0 +1,180 @@
+-----| Audit Log |-----
+Time: 2025-12-04T01:28:16.551683
+Actor: admin (ADMIN)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T01:28:46.594770
+Actor: admin (ADMIN)
+Action: LOGOUT
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has logged out
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T01:28:52.555524
+Actor: admin (ADMIN)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T01:29:03.104040
+Actor: admin (ADMIN)
+Action: APPLIED_DISCOUNT
+Entity: DiscountPolicy
+Entity ID: 0
+Message: Applied discount rate of %0.0 to Billing ID 1
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T01:29:15.286036
+Actor: admin (ADMIN)
+Action: CONFIRMED_PAYMENT
+Entity: Billing
+Entity ID: 1
+Message: Confirmed payment of $500.0 (CARD) for Billing ID 1
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T01:29:20.803233
+Actor: admin (ADMIN)
+Action: APPLIED_DISCOUNT
+Entity: DiscountPolicy
+Entity ID: 0
+Message: Applied discount rate of %0.0 to Billing ID 1
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T01:29:21.518202
+Actor: admin (ADMIN)
+Action: APPLIED_DISCOUNT
+Entity: DiscountPolicy
+Entity ID: 0
+Message: Applied discount rate of %0.0 to Billing ID 1
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T01:29:21.520203
+Actor: admin (ADMIN)
+Action: APPLIED_DISCOUNT
+Entity: DiscountPolicy
+Entity ID: 0
+Message: Applied discount rate of %0.0 to Billing ID 1
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T01:32:33.618742
+Actor: admin (ADMIN)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T01:34:31.147212
+Actor: admin (ADMIN)
+Action: UPDATED_EARNING_RATE
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point earning rate to 0.5
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T01:34:50.718531
+Actor: admin (ADMIN)
+Action: UPDATED_EARNING_RATE
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point earning rate to 1.0
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T14:41:29.010663
+Actor: admin (ADMIN)
+Action: UPDATED_REDEMPTION_CAP
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point redemption cap to 2000
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T14:42:03.144359
+Actor: admin (ADMIN)
+Action: UPDATED_REDEMPTION_CAP
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point redemption cap to 1000
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T14:42:05.901291
+Actor: admin (ADMIN)
+Action: UPDATED_EARNING_RATE
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point earning rate to 1.0
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T14:42:05.903296
+Actor: admin (ADMIN)
+Action: UPDATED_REDEMPTION_CAP
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point redemption cap to 1000
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T14:42:12.802232
+Actor: admin (ADMIN)
+Action: UPDATED_EARNING_RATE
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point earning rate to 1.0
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T14:42:12.803235
+Actor: admin (ADMIN)
+Action: UPDATED_EARNING_RATE
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point earning rate to 1.0
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T14:42:12.804232
+Actor: admin (ADMIN)
+Action: UPDATED_REDEMPTION_CAP
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point redemption cap to 1000
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T14:42:12.805233
+Actor: admin (ADMIN)
+Action: UPDATED_REDEMPTION_CAP
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point redemption cap to 1000
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-04T15:35:41.480435
+Actor: admin (ADMIN)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has successfully logged in
+-----------------------
+

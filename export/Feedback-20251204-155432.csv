@@ -1,0 +1,3 @@
+guest,rating,sentiment,message,reservation,date
+Agent Smith, 4, Good, I had a good time., 2, 2025-12-03T20:44:34.659473
+Bob Dole, 5, Positive, Great!!, 3, 2025-12-03T21:06:42.284191

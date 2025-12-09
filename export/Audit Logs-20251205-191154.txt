@@ -1,0 +1,225 @@
+-----| Audit Log |-----
+Time: 2025-12-05T17:51:06.191307
+Actor: Bob (MANAGER)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 2
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T17:51:12.385108
+Actor: Bob (MANAGER)
+Action: APPLIED_DISCOUNT
+Entity: DiscountPolicy
+Entity ID: 0
+Message: Applied discount rate of %30.0 to Billing ID 1
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T17:51:27.202779
+Actor: Bob (MANAGER)
+Action: CONFIRMED_PAYMENT
+Entity: Billing
+Entity ID: 1
+Message: Confirmed payment of $300.0 (CASH) for Billing ID 1
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T17:51:41.220316
+Actor: Bob (MANAGER)
+Action: LOGOUT
+Entity: AdminUser
+Entity ID: 2
+Message: This admin has logged out
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:01:47.953455
+Actor: admin (ADMIN)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:02:03.377752
+Actor: admin (ADMIN)
+Action: APPLIED_DISCOUNT
+Entity: DiscountPolicy
+Entity ID: 0
+Message: Applied discount rate of %15.0 to Billing ID 3
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:02:24.852426
+Actor: admin (ADMIN)
+Action: CONFIRMED_PAYMENT
+Entity: Billing
+Entity ID: 3
+Message: Confirmed payment of $20.0 (CASH) for Billing ID 3
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:02:36.815320
+Actor: admin (ADMIN)
+Action: APPLIED_DISCOUNT
+Entity: DiscountPolicy
+Entity ID: 0
+Message: Applied discount rate of %10.0 to Billing ID 5
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:02:52.558150
+Actor: admin (ADMIN)
+Action: CONFIRMED_PAYMENT
+Entity: Billing
+Entity ID: 5
+Message: Confirmed payment of $150.0 (CARD) for Billing ID 5
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:03:01.666074
+Actor: admin (ADMIN)
+Action: CONFIRMED_PAYMENT
+Entity: Billing
+Entity ID: 5
+Message: Confirmed payment of $500.0 (POINTS) for Billing ID 5
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:03:18.619362
+Actor: admin (ADMIN)
+Action: LOGOUT
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has logged out
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:04:40.450115
+Actor: admin (ADMIN)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:05:08.399584
+Actor: admin (ADMIN)
+Action: APPLIED_DISCOUNT
+Entity: DiscountPolicy
+Entity ID: 0
+Message: Applied discount rate of %5.0 to Billing ID 8
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:05:34.423078
+Actor: admin (ADMIN)
+Action: CONFIRMED_PAYMENT
+Entity: Billing
+Entity ID: 8
+Message: Confirmed payment of $128.82 (CASH) for Billing ID 8
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:05:39.528050
+Actor: admin (ADMIN)
+Action: LOGOUT
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has logged out
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:35:04.076559
+Actor: admin (ADMIN)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:38:26.383350
+Actor: Bob (MANAGER)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 2
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:38:35.200981
+Actor: Bob (MANAGER)
+Action: UPDATED_ROOM_AVAILABILITY
+Entity: Room
+Entity ID: 15
+Message: Room 206 availability changed to MAINTENANCE
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:38:43.306171
+Actor: Bob (MANAGER)
+Action: LOGOUT
+Entity: AdminUser
+Entity ID: 2
+Message: This admin has logged out
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:50:01.931227
+Actor: admin (ADMIN)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:53:14.509978
+Actor: admin (ADMIN)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T18:55:33.626011
+Actor: admin (ADMIN)
+Action: UPDATED_GUEST_LOYALTY
+Entity: Guest
+Entity ID: 9
+Message: Cancelled loyalty membership of guest:  Example User
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T19:08:38.823612
+Actor: admin (ADMIN)
+Action: LOGIN
+Entity: AdminUser
+Entity ID: 1
+Message: This admin has successfully logged in
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T19:11:31.803590
+Actor: admin (ADMIN)
+Action: UPDATED_EARNING_RATE
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point earning rate to 0.5
+-----------------------
+
+-----| Audit Log |-----
+Time: 2025-12-05T19:11:42.092933
+Actor: admin (ADMIN)
+Action: UPDATED_EARNING_RATE
+Entity: LoyaltyPolicy
+Entity ID: 0
+Message: Changed loyalty point earning rate to 1.0
+-----------------------
+

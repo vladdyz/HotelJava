@@ -1,0 +1,21 @@
+timestamp,actor,action,entityType,entityId,message
+2025-12-04T01:28:16.551683,admin (ADMIN),LOGIN,AdminUser,1,This admin has successfully logged in
+2025-12-04T01:28:46.594770,admin (ADMIN),LOGOUT,AdminUser,1,This admin has logged out
+2025-12-04T01:28:52.555524,admin (ADMIN),LOGIN,AdminUser,1,This admin has successfully logged in
+2025-12-04T01:29:03.104040,admin (ADMIN),APPLIED_DISCOUNT,DiscountPolicy,0,Applied discount rate of %0.0 to Billing ID 1
+2025-12-04T01:29:15.286036,admin (ADMIN),CONFIRMED_PAYMENT,Billing,1,Confirmed payment of $500.0 (CARD) for Billing ID 1
+2025-12-04T01:29:20.803233,admin (ADMIN),APPLIED_DISCOUNT,DiscountPolicy,0,Applied discount rate of %0.0 to Billing ID 1
+2025-12-04T01:29:21.518202,admin (ADMIN),APPLIED_DISCOUNT,DiscountPolicy,0,Applied discount rate of %0.0 to Billing ID 1
+2025-12-04T01:29:21.520203,admin (ADMIN),APPLIED_DISCOUNT,DiscountPolicy,0,Applied discount rate of %0.0 to Billing ID 1
+2025-12-04T01:32:33.618742,admin (ADMIN),LOGIN,AdminUser,1,This admin has successfully logged in
+2025-12-04T01:34:31.147212,admin (ADMIN),UPDATED_EARNING_RATE,LoyaltyPolicy,0,Changed loyalty point earning rate to 0.5
+2025-12-04T01:34:50.718531,admin (ADMIN),UPDATED_EARNING_RATE,LoyaltyPolicy,0,Changed loyalty point earning rate to 1.0
+2025-12-04T14:41:29.010663,admin (ADMIN),UPDATED_REDEMPTION_CAP,LoyaltyPolicy,0,Changed loyalty point redemption cap to 2000
+2025-12-04T14:42:03.144359,admin (ADMIN),UPDATED_REDEMPTION_CAP,LoyaltyPolicy,0,Changed loyalty point redemption cap to 1000
+2025-12-04T14:42:05.901291,admin (ADMIN),UPDATED_EARNING_RATE,LoyaltyPolicy,0,Changed loyalty point earning rate to 1.0
+2025-12-04T14:42:05.903296,admin (ADMIN),UPDATED_REDEMPTION_CAP,LoyaltyPolicy,0,Changed loyalty point redemption cap to 1000
+2025-12-04T14:42:12.802232,admin (ADMIN),UPDATED_EARNING_RATE,LoyaltyPolicy,0,Changed loyalty point earning rate to 1.0
+2025-12-04T14:42:12.803235,admin (ADMIN),UPDATED_EARNING_RATE,LoyaltyPolicy,0,Changed loyalty point earning rate to 1.0
+2025-12-04T14:42:12.804232,admin (ADMIN),UPDATED_REDEMPTION_CAP,LoyaltyPolicy,0,Changed loyalty point redemption cap to 1000
+2025-12-04T14:42:12.805233,admin (ADMIN),UPDATED_REDEMPTION_CAP,LoyaltyPolicy,0,Changed loyalty point redemption cap to 1000
+2025-12-04T15:35:41.480435,admin (ADMIN),LOGIN,AdminUser,1,This admin has successfully logged in

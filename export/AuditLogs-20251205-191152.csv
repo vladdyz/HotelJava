@@ -1,0 +1,26 @@
+timestamp,actor,action,entityType,entityId,message
+2025-12-05T17:51:06.191307,Bob (MANAGER),LOGIN,AdminUser,2,This admin has successfully logged in
+2025-12-05T17:51:12.385108,Bob (MANAGER),APPLIED_DISCOUNT,DiscountPolicy,0,Applied discount rate of %30.0 to Billing ID 1
+2025-12-05T17:51:27.202779,Bob (MANAGER),CONFIRMED_PAYMENT,Billing,1,Confirmed payment of $300.0 (CASH) for Billing ID 1
+2025-12-05T17:51:41.220316,Bob (MANAGER),LOGOUT,AdminUser,2,This admin has logged out
+2025-12-05T18:01:47.953455,admin (ADMIN),LOGIN,AdminUser,1,This admin has successfully logged in
+2025-12-05T18:02:03.377752,admin (ADMIN),APPLIED_DISCOUNT,DiscountPolicy,0,Applied discount rate of %15.0 to Billing ID 3
+2025-12-05T18:02:24.852426,admin (ADMIN),CONFIRMED_PAYMENT,Billing,3,Confirmed payment of $20.0 (CASH) for Billing ID 3
+2025-12-05T18:02:36.815320,admin (ADMIN),APPLIED_DISCOUNT,DiscountPolicy,0,Applied discount rate of %10.0 to Billing ID 5
+2025-12-05T18:02:52.558150,admin (ADMIN),CONFIRMED_PAYMENT,Billing,5,Confirmed payment of $150.0 (CARD) for Billing ID 5
+2025-12-05T18:03:01.666074,admin (ADMIN),CONFIRMED_PAYMENT,Billing,5,Confirmed payment of $500.0 (POINTS) for Billing ID 5
+2025-12-05T18:03:18.619362,admin (ADMIN),LOGOUT,AdminUser,1,This admin has logged out
+2025-12-05T18:04:40.450115,admin (ADMIN),LOGIN,AdminUser,1,This admin has successfully logged in
+2025-12-05T18:05:08.399584,admin (ADMIN),APPLIED_DISCOUNT,DiscountPolicy,0,Applied discount rate of %5.0 to Billing ID 8
+2025-12-05T18:05:34.423078,admin (ADMIN),CONFIRMED_PAYMENT,Billing,8,Confirmed payment of $128.82 (CASH) for Billing ID 8
+2025-12-05T18:05:39.528050,admin (ADMIN),LOGOUT,AdminUser,1,This admin has logged out
+2025-12-05T18:35:04.076559,admin (ADMIN),LOGIN,AdminUser,1,This admin has successfully logged in
+2025-12-05T18:38:26.383350,Bob (MANAGER),LOGIN,AdminUser,2,This admin has successfully logged in
+2025-12-05T18:38:35.200981,Bob (MANAGER),UPDATED_ROOM_AVAILABILITY,Room,15,Room 206 availability changed to MAINTENANCE
+2025-12-05T18:38:43.306171,Bob (MANAGER),LOGOUT,AdminUser,2,This admin has logged out
+2025-12-05T18:50:01.931227,admin (ADMIN),LOGIN,AdminUser,1,This admin has successfully logged in
+2025-12-05T18:53:14.509978,admin (ADMIN),LOGIN,AdminUser,1,This admin has successfully logged in
+2025-12-05T18:55:33.626011,admin (ADMIN),UPDATED_GUEST_LOYALTY,Guest,9,Cancelled loyalty membership of guest:  Example User
+2025-12-05T19:08:38.823612,admin (ADMIN),LOGIN,AdminUser,1,This admin has successfully logged in
+2025-12-05T19:11:31.803590,admin (ADMIN),UPDATED_EARNING_RATE,LoyaltyPolicy,0,Changed loyalty point earning rate to 0.5
+2025-12-05T19:11:42.092933,admin (ADMIN),UPDATED_EARNING_RATE,LoyaltyPolicy,0,Changed loyalty point earning rate to 1.0
