@@ -63,7 +63,7 @@
             </Button>
             <ImageView pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <image>
-                  <Image url="@../../../../../../../../../Downloads/sun-1846.png" />
+                  <Image url="@../../../../images/sun-1846.png" />
                </image>
             </ImageView>
          </children>
@@ -103,14 +103,14 @@
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>
             </Button>
-            <Label alignment="CENTER" prefHeight="134.0" prefWidth="136.0" text="[ Placeholder Text Blurb For Hotel and Features - Something To Captivate Audience? indicate that this is a self-serve kiosk etc] " textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
+            <Label alignment="CENTER" prefHeight="134.0" prefWidth="136.0" text="Your favourite place to relax is always welcome to you. Book today with our new self-serve kiosk! " textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
                <font>
                   <Font name="Lucida Sans Demibold Roman" size="12.0" />
                </font>
             </Label>
             <ImageView pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <image>
-                  <Image url="@../../../../../../../../../Downloads/hotel-9215.png" />
+                  <Image url="@../../../../images/hotel-9215.png" />
                </image>
             </ImageView>
          </children>
@@ -140,7 +140,7 @@
    <bottom>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: NAVAJOWHITE; -fx-border-color: orange; -fx-max-width: parent-width;" text="Vladislav Zolotukhin - 170945224" textAlignment="CENTER" visible="false" HBox.hgrow="ALWAYS">
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: NAVAJOWHITE; -fx-border-color: orange; -fx-max-width: parent-width;" text="Vladislav Zolotukhin - 170945224" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                <font>
                   <Font name="Franklin Gothic Heavy" size="17.0" />
                </font>

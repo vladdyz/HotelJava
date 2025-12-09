@@ -66,7 +66,7 @@
             </Button>
             <ImageView pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <image>
-                  <Image url="@../../../../../../../../../Downloads/sun-1846.png" />
+                  <Image url="@../../../../images/sun-1846.png" />
                </image>
             </ImageView>
             <Button fx:id="btnLogOut" layoutX="78.0" layoutY="183.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: ivory;" text="Log Out" GridPane.columnIndex="1" GridPane.rowIndex="4">

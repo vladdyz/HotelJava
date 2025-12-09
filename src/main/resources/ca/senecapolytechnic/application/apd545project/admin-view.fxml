@@ -75,7 +75,7 @@
             </Button>
             <ImageView pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <image>
-                  <Image url="@../../../../../../../../../Downloads/sun-1846.png" />
+                  <Image url="@../../../../images/sun-1846.png" />
                </image>
             </ImageView>
             <Button fx:id="btnAdminRooms" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: ivory;" text="Manage Rooms" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
@@ -246,7 +246,7 @@
                   </GridPane>
                </top>
             </BorderPane>
-            <BorderPane fx:id="borderPaneRoomMgmt" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" visible="false">
+            <BorderPane fx:id="borderPaneRoomMgmt" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
                <center>
                   <TableView fx:id="tableRoomMgmt" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <columns>
@@ -290,6 +290,7 @@
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="labelUrgentWaitlist" layoutX="223.0" layoutY="4.0" text="Placeholder" textFill="RED" visible="false" />
                                  </children>
                               </AnchorPane>
                               <GridPane>
@@ -312,11 +313,12 @@
                                        </font>
                                     </Label>
                                     <TextField fx:id="occupancyPercentage" disable="true" editable="false" GridPane.columnIndex="3" />
-                                    <Button fx:id="btnExportRoomMgmt" mnemonicParsing="false" text="Export" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
                                  </children>
                               </GridPane>
                           </items>
                         </SplitPane>
+                        <Button fx:id="btnExportRoomMgmt" mnemonicParsing="false" text="Export to PDF" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                        <Button fx:id="btnExportRoomMgmtCSV" mnemonicParsing="false" text="Export to CSV" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </bottom>
@@ -377,8 +379,8 @@
                      <children>
                         <Label alignment="CENTER" text="Search by Guest : " textAlignment="CENTER" GridPane.halignment="RIGHT" />
                         <TextField fx:id="searchGuestInput3" GridPane.columnIndex="1" />
-                        <Label alignment="CENTER" layoutX="52.0" layoutY="16.0" text="Filter by Type : " textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
-                        <ChoiceBox fx:id="choiceBoxFeedbackType" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4">
+                        <Label alignment="CENTER" layoutX="52.0" layoutY="16.0" text="Filter by Type : " textAlignment="CENTER" visible="false" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
+                        <ChoiceBox fx:id="choiceBoxFeedbackType" maxWidth="1.7976931348623157E308" visible="false" GridPane.columnIndex="4">
                            <GridPane.margin>
                               <Insets right="3.0" />
                            </GridPane.margin>
@@ -391,7 +393,7 @@
                         </ChoiceBox>
                         <Label alignment="CENTER" layoutX="37.0" layoutY="16.0" text="Dates Between : " textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                         <DatePicker fx:id="searchFeedbackDateStartInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <DatePicker fx:id="searchFeedbackDateInput" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <DatePicker fx:id="searchFeedbackDateEndInput" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label alignment="CENTER" layoutX="408.0" layoutY="47.0" text="Filter by Sentiment : " textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                         <ChoiceBox fx:id="choiceBoxFeedbackSentiment" layoutX="497.0" layoutY="43.0" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.rowIndex="2">
                            <GridPane.margin>
@@ -484,7 +486,8 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Button fx:id="btnExportAuditLogs" mnemonicParsing="false" text="Export" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                        <Button fx:id="btnExportAuditLogs" mnemonicParsing="false" text="Export to Text" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                        <Button fx:id="btnExportAuditLogsCSV" mnemonicParsing="false" text="Export to CSV" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                      </children>
                   </GridPane>
                </top>
@@ -559,7 +562,7 @@
    <bottom>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: NAVAJOWHITE; -fx-border-color: orange; -fx-max-width: parent-width;" text="Vladislav Zolotukhin - 170945224" textAlignment="CENTER" visible="false" HBox.hgrow="ALWAYS">
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: NAVAJOWHITE; -fx-border-color: orange; -fx-max-width: parent-width;" text="Vladislav Zolotukhin - 170945224" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                <font>
                   <Font name="Franklin Gothic Heavy" size="17.0" />
                </font>
