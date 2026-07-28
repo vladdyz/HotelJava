@@ -3,6 +3,9 @@
 [![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)](#)
 [![Hibernate](https://img.shields.io/badge/Hibernate-59666C?logo=hibernate&logoColor=fff)](#)
 
+![GIF of Come On Inn UI](https://github.com/vladdyz/HotelJava/blob/main/docs/images/ComeOnInn.gif)
+
+
 The Come On Inn hotel management system is designed to facilitate the automation and digitalization
 of bookings and administrative management of the hotel, modernizing its current mode of operation and
 setting the foundation for future scalability. It aims to significantly reduce the time and 
