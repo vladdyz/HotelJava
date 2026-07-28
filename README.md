@@ -1,7 +1,17 @@
 # Come On Inn — Hotel Management System
 
-A desktop hotel management system built entirely in Java, covering the full guest lifecycle —
-self-serve booking, payment and loyalty tracking, checkout, and post-stay feedback — alongside a
+[![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)](#)
+[![Hibernate](https://img.shields.io/badge/Hibernate-59666C?logo=hibernate&logoColor=fff)](#)
+
+The Come On Inn hotel management system is designed to facilitate the automation and digitalization
+of bookings and administrative management of the hotel, modernizing its current mode of operation and
+setting the foundation for future scalability. It aims to significantly reduce the time and 
+organizational efforts required to manage the extensive data kept by the hotel system and implement 
+additional security protocols, quick response time, efficient data storage and fast retrieval, accurate 
+calculation operations, and reduce the capacity for user error.   
+
+This desktop system is built entirely in Java, covering the full guest lifecycle:
+self-serve booking, payment and loyalty tracking, checkout, and post-stay feedback, alongside a
 full administrative back office for managing reservations, rooms, rates, and reporting.
 
 ## Overview
